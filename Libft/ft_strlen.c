@@ -1,22 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   ft_isalpha.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Raulsanc <raulsanc@student.42malaga.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 14:19:21 by Raulsanc          #+#    #+#             */
-/*   Updated: 2025/04/22 14:19:44 by Raulsanc         ###   ########.fr       */
+/*   Created: 2025/04/22 13:59:43 by Raulsanc          #+#    #+#             */
+/*   Updated: 2025/04/22 14:18:21 by Raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef LIBFT_H
-# define LIBFT_H
 
-# include <unistd.h>
-int		ft_isalpha(int c);
-int		ft_isdigit(int c);
-int		ft_isascii(int c);
-int		ft_isprint(int c);
-int 	ft_isalnum(int c);
-size_t      ft_strlen(const char *s);
-#endif
+#include "libft.h"
+
+size_t ft_strlen(const char *s)
+{
+    int i;
+    i = 0;
+
+    while(s[i] != '\0')
+    i++;
+    return i;
+}

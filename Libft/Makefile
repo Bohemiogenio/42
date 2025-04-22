@@ -11,7 +11,7 @@
 # **************************************************************************** #
 
 NAME = libft.a
-SRC = ft_isalpha.c ft_isdigit.c ft_isalnum ft_isascii ft_isprint
+SRC = ft_isalpha.c ft_isdigit.c ft_isalnum ft_isascii ft_isprint ft_strlen
 OBJ = $(SRC:.c=.o)
 CC = cc
 CFLAGS = -Wall -Wextra -Werror

@@ -19,5 +19,7 @@ int main(void)
     printf("%d %d\n", ft_isprint('A'), isprint('A'));
     printf("%d %d\n", ft_isprint(' '), isprint(' '));
     printf("%d %d\n", ft_isprint(31), isprint(31));
+    printf("\n## stLEN ##\n");
+    printf("%zu %zu\n", ft_strlen("hola mundo"), strlen("Hola mundo"));
     return 0;
 }
