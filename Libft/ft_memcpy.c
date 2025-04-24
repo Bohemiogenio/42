@@ -13,9 +13,7 @@
 #include "libft.h"
 
 void *ft_memcpy(void *dest , const void *src, size_t n)// Esta función copia 'n' bytes desde 'src' hacia 'dest'.
-// Es como clonar datos de un lugar de la memoria a otro.
-{
-    
+// Es como clonar datos de un lugar de la memoria a otro.  
     {
         size_t i;                        // Variable para contar cuántos bytes copiamos
         unsigned char *d;               // Creamos un puntero para recorrer 'dest'
@@ -40,4 +38,3 @@ void *ft_memcpy(void *dest , const void *src, size_t n)// Esta función copia 'n
         // Devolvemos el puntero original al bloque destino (como hace la versión original de memcpy)
         return dest;
     }
-}
