@@ -12,9 +12,9 @@
 
 #include "libft.h"
 
-void bzero(void *s, size_t n)
+void ft_bzero(void *s, size_t n)
 {
-    ft_menset(s, 0, n); //“Ve a la dirección s y copia el valor 0 en n bytes seguidos”
+    ft_memset(s, 0, n); //“Ve a la dirección s y copia el valor 0 en n bytes seguidos”
 }
 
 /* {

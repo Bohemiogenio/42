@@ -21,5 +21,13 @@ int main(void)
     printf("%d %d\n", ft_isprint(31), isprint(31));
     printf("\n## stLEN ##\n");
     printf("%zu %zu\n", ft_strlen("hola mundo"), strlen("Hola mundo"));
+    printf("\n## memSET ##\n");
+    char buffer[10];
+    ft_memset(buffer, 'X', 5);
+    buffer[5] = '\0';
+    printf("%s\n", buffer);
+    printf("\n## bzero ##\n");   
+    ft_bzero(buffer, 10);           
+    printf("Después: %s\n", buffer);    
     return 0;
 }
