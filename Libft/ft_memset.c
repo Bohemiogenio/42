@@ -9,17 +9,17 @@
 /*   Updated: 2025/04/22 14:19:44 by Raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#ifndef LIBFT_H
-# define LIBFT_H
 
-# include <unistd.h>
-int		ft_isalpha(int c);
-int		ft_isdigit(int c);
-int		ft_isascii(int c);
-int		ft_isprint(int c);
-int 	ft_isalnum(int c);
-size_t      ft_strlen(const char *s);
-void *ft_memset(void *b, int c, size_t len);
-void bzero(void *s, size_t n);
-void *memcpy(void *dest , const void *src;size_t n);
-#endif
+#include "libft.h"
+
+void *ft_memset(void *b, int c, size_t len)
+{
+    size_t      i;
+    unigned char *ptr;
+    i = 0;
+    ptr = (unsigned char *)b;
+
+    while (i < len)
+    ptr[i++] = (unsigned char)c;
+    return (b);
+}
