@@ -1,14 +1,15 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_isdigit.c                                       :+:      :+:    :+:   */
+/*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: Raulsanc <raulsanc@student.42malaga.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/04/22 14:19:21 by Raulsanc          #+#    #+#             */
-/*   Updated: 2025/04/22 14:19:44 by Raulsanc         ###   ########.fr       */
+/*   Created: 2025/04/28 09:48:27 by Raulsanc          #+#    #+#             */
+/*   Updated: 2025/04/28 09:48:37 by Raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #ifndef LIBFT_H
 # define LIBFT_H
 
@@ -22,4 +23,5 @@ size_t      ft_strlen(const char *s);
 void *ft_memset(void *b, int c, size_t len);
 void ft_bzero(void *s, size_t n);
 void *ft_memcpy(void *dest , const void *src, size_t n);
+void	*ft_memmove(void *dst, const void *src, size_t len);
 #endif
