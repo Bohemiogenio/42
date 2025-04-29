@@ -6,17 +6,16 @@
 /*   By: Raulsanc <raulsanc@student.42malaga.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:35:07 by Raulsanc          #+#    #+#             */
-/*   Updated: 2025/04/28 09:35:21 by Raulsanc         ###   ########.fr       */
+/*   Updated: 2025/04/28 10:47:24 by Raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void ft_bzero(void *s, size_t n)
+void	ft_bzero(void *s, size_t n)
 {
-    ft_memset(s, 0, n); //“Ve a la dirección s y copia el valor 0 en n bytes seguidos”
+	ft_memset(s, 0, n);
 }
-
 /* {
    size_t i;
    unsigned char *ptr;

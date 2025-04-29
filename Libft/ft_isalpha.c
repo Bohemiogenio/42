@@ -6,7 +6,7 @@
 /*   By: Raulsanc <raulsanc@student.42malaga.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/22 13:59:43 by Raulsanc          #+#    #+#             */
-/*   Updated: 2025/04/22 14:18:21 by Raulsanc         ###   ########.fr       */
+/*   Updated: 2025/04/28 10:52:35 by Raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	ft_isalpha(int c)
 {
-    if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
-        return (1024);
-    return 0;
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z'))
+		return (1024);
+	return (0);
 }

@@ -6,26 +6,28 @@
 /*   By: Raulsanc <raulsanc@student.42malaga.c      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 09:43:29 by Raulsanc          #+#    #+#             */
-/*   Updated: 2025/04/28 09:44:10 by Raulsanc         ###   ########.fr       */
+/*   Updated: 2025/04/28 11:24:36 by Raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "libft.h"
 
 void	*ft_memmove(void *dst, const void *src, size_t len)
 {
-	size_t				i;
-	unsigned char		*ptr;
-	const unsigned char	*ptr2;
+	char	*s;
+	char	*d;
+	size_t	i;
 
-	ptr = (unsigned char*)dst;
-	ptr2 = (unsigned char*)src;
+	s = (char *)src;
+	d = (char *)dst;
 	i = 0;
-	if (ptr2 < ptr)
-		while (++i <= len)
-			ptr[len - i] = ptr2[len - i];
-	else
+	if (d > s)
 		while (len-- > 0)
-			*(ptr++) = *(ptr2++);
+			d[len] = s[len];
+	else
+		while (i < len)
+		{
+			d[i] = s[i];
+			i++;
+		}
 	return (dst);
 }
