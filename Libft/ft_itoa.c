@@ -14,8 +14,12 @@
 
 static int	count_digits(int n)
 {
-	int	count = (n <= 0) ? 1 : 0;
+	int	count;
 
+	if (n <= 0)
+		count = 1;
+	else
+		count = 0;
 	while (n != 0)
 	{
 		n /= 10;
@@ -50,4 +54,3 @@ char	*ft_itoa(int n)
 	}
 	return (str);
 }
-

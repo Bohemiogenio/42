@@ -31,15 +31,11 @@ char	*ft_strtrim(char const *s1, char const *set)
 
 	if (!s1 || !set)
 		return (NULL);
-
 	start = 0;
 	while (s1[start] && is_in_set(s1[start], set))
 		start++;
-
 	end = ft_strlen(s1);
 	while (end > start && is_in_set(s1[end - 1], set))
 		end--;
-
 	return (ft_substr(s1, start, end - start));
 }
-
