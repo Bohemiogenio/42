@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: Raulsanc <raulsanc@student.42malaga.c      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/01 17:18:06 by Raulsanc          #+#    #+#             */
+/*   Updated: 2025/07/01 17:18:09 by Raulsanc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "ft_printf.h"
 
 int	ft_format(va_list args, const char format)
@@ -48,4 +60,3 @@ int	ft_printf(const char *str, ...)
 	va_end(args);
 	return (print_length);
 }
-
