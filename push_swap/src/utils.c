@@ -30,3 +30,25 @@ void	ft_putnbr_fd(int n, int fd)
 	c = (char)('0' + (nb % 10));
 	write(fd, &c, 1);
 }
+
+int	ft_isdigit(int c)
+{
+	return (c >= '0' && c <= '9');
+}
+
+int	ft_isspace(int c)
+{
+	return (c == ' ' || c == '\t' || c == '\n'
+		|| c == '\r' || c == '\v' || c == '\f');
+}
+
+int	ps_issorted(t_node *a)
+{
+	while (a && a->next)
+	{
+		if(a->val > a->next->val)
+			return (0);
+		a = a->next;
+	}
+	return (1);
+}
