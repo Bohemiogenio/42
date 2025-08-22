@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 16:06:41 by raulsanc          #+#    #+#             */
-/*   Updated: 2025/08/21 17:20:13 by raulsanc         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:39:31 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,4 +65,6 @@ int	parse_args(int ac, char **av, t_node **a);
 void	sort_small(t_node **a, t_node **b);
 void	sort_big(t_node **a, t_node **b);
 
+/*--indexing.c--*/
+void	ps_index(t_node *a);
 #endif
