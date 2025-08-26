@@ -13,7 +13,7 @@
 NAME    = push_swap
 CC      = cc
 CFLAGS  = -Wall -Wextra -Werror
-INCS    = -Iinclude
+INCS    = -I include
 
 SRC_DIR = src
 SRCS    = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/*/*.c)

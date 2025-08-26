@@ -61,10 +61,11 @@ void    pa(t_node **a, t_node **b);
 /*--parsing.c--*/
 int	parse_args(int ac, char **av, t_node **a);
 
-/*--sport_small.c / sort_big.c--*/
+/*--sort_small.c / sort_big.c--*/
 void	sort_small(t_node **a, t_node **b);
 void	sort_big(t_node **a, t_node **b);
 
 /*--indexing.c--*/
 void	ps_index(t_node *a);
+
 #endif

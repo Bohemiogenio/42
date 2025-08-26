@@ -1,10 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/26 15:06:32 by raulsanc          #+#    #+#             */
+/*   Updated: 2025/08/26 15:06:33 by raulsanc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 void	ft_putstr_fd(const char *s, int fd)
 {
-	int i;
+	int	i;
 
-	if(!s)
+	if (!s)
 		return ;
 	i = 0;
 	while (s[i])
@@ -13,19 +25,19 @@ void	ft_putstr_fd(const char *s, int fd)
 		i++;
 	}
 }
-/*Imprime un entero en fd(sirve para debug)*/
+
 void	ft_putnbr_fd(int n, int fd)
 {
 	long	nb;
 	char	c;
-	
+
 	nb = n;
-	if(nb < 0)
+	if (nb < 0)
 	{
 		write(fd, "-", 1);
 		nb = -nb;
 	}
-	if(nb > 9)
+	if (nb > 9)
 		ft_putnbr_fd((int)(nb / 10), fd);
 	c = (char)('0' + (nb % 10));
 	write(fd, &c, 1);
@@ -46,7 +58,7 @@ int	ps_issorted(t_node *a)
 {
 	while (a && a->next)
 	{
-		if(a->val > a->next->val)
+		if (a->val > a->next->val)
 			return (0);
 		a = a->next;
 	}

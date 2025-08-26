@@ -1,8 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   sort_small.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/08/26 15:06:14 by raulsanc          #+#    #+#             */
+/*   Updated: 2025/08/26 15:06:17 by raulsanc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 
 static void	sort_three(t_node **a)
 {
-	int x, y, z;
+	int	x;
+	int	y;
+	int	z;
 
 	x = (*a)->val;
 	y = (*a)->next->val;
@@ -27,16 +41,19 @@ static void	sort_three(t_node **a)
 
 static int	pos_min(t_node *a)
 {
-	int pos = 0;
-	int i = 0;
-	int min = INT_MAX;
+	int	pos;
+	int	i;
+	int	min;
 
-	while(a)
+	pos = 0;
+	i = 0;
+	min = INT_MAX;
+	while (a)
 	{
-		if(a->val < min)
+		if (a->val < min)
 		{
 			min = a->val;
-			pos = i;	
+			pos = i;
 		}
 		i++;
 		a = a->next;
@@ -46,14 +63,18 @@ static int	pos_min(t_node *a)
 
 static void	rotate_to_top(t_node **a, int pos)
 {
-	int n = ps_size(*a);
-	
-	if(pos <= n / 2)
-		while(pos--)
+	int	n;
+	int	k;
+
+	n = ps_size(*a);
+	if (pos <= n / 2)
+	{
+		while (pos--)
 			ra(a);
+	}
 	else
 	{
-		int k = n - pos;
+		k = n - pos;
 		while (k--)
 			rra(a);
 	}
@@ -61,31 +82,31 @@ static void	rotate_to_top(t_node **a, int pos)
 
 void	sort_small(t_node **a, t_node **b)
 {
-	int n;
-	int pushes;
-	
-	(void)b;
+	int	n;
+	int	pushes;
+	int	p;
+
 	n = ps_size(*a);
-	if(n <= 1)
+	if (n <= 1)
 		return ;
-	if(n == 2 && (*a)->val > (*a)->next->val)
+	if (n == 2 && (*a)->val > (*a)->next->val)
 	{
 		sa(a);
 		return ;
 	}
-	if(n == 3)
+	if (n == 3)
 	{
 		sort_three(a);
 		return ;
 	}
 	pushes = n - 3;
-	while(pushes--)
+	while (pushes--)
 	{
-		int p = pos_min(*a);
+		p = pos_min(*a);
 		rotate_to_top(a, p);
 		pb(a, b);
 	}
 	sort_three(a);
-	while(*b)
+	while (*b)
 		pa(a, b);
 }
