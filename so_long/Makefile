@@ -19,7 +19,7 @@ MLX_DIR = minilibx-linux
 INCLUDES = -Iinclude -I$(MLX_DIR)
 MLX_FLAGS = -L$(MLX_DIR) -lmlx -lXext -lX11 -lm -lbsd
 
-SRC = src/main.c src/map_load.c src/map_validate.c src/render.c src/game.c
+SRC = src/main.c src/map_load.c src/map_validate.c src/render.c src/game.c src/map_path.c
 OBJ = $(SRC:.c=.o)
 
 all: $(MLX_DIR)/libmlx.a $(NAME)

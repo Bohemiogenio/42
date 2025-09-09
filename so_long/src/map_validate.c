@@ -14,7 +14,7 @@ int	put_error(const char *msg)
 	return (0);
 }
 
-/* Solo 0/1/C/E/P y sin líneas vacías */
+/* Solo 0/1/C/L/E/P y sin líneas vacías (C y L cuentan como coleccionables) */
 static int	valid_chars_and_counts(t_game *g, int *p, int *c, int *e)
 {
 	int		y;
@@ -32,11 +32,11 @@ static int	valid_chars_and_counts(t_game *g, int *p, int *c, int *e)
 		x = 0;
 		while ((ch = g->map[y][x]) != '\0')
 		{
-			if (ch != '0' && ch != '1' && ch != 'C' && ch != 'E' && ch != 'P')
+			if (ch != '0' && ch != '1' && ch != 'C' && ch != 'L' && ch != 'E' && ch != 'P')
 				return (put_error("Caracter invalido"));
 			if (ch == 'P')
 				(*p)++;
-			else if (ch == 'C')
+			else if (ch == 'C' || ch == 'L')
 				(*c)++;
 			else if (ch == 'E')
 				(*e)++;
@@ -103,17 +103,27 @@ int	validate_map(t_game *g)
 	int	c;
 	int	e;
 
+	/* 1) forma */
 	if (!is_rectangular(g))
 		return (0);
+
+	/* 2) caracteres y conteos */
 	if (!valid_chars_and_counts(g, &p, &c, &e))
 		return (0);
 	if (p != 1)
 		return (put_error("Debe haber 1 P"));
 	if (c < 1)
-		return (put_error("Debe haber al menos 1 C"));
+		return (put_error("Debe haber al menos 1 C/L"));
 	if (e < 1)
 		return (put_error("Debe haber al menos 1 E"));
+
+	/* 3) cerrado por muros */
 	if (!walls_closed(g))
 		return (0);
+
+	/* 4) camino: se pueden recoger todos los C/L y alcanzar una E */
+	if (!map_has_valid_path(g))
+		return (put_error("no hay camino para recoger todo y salir"), 0);
+
 	return (1);
 }

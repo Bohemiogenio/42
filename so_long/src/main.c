@@ -24,6 +24,17 @@ static void	putstr_fd(const char *s, int fd)
 	write(fd, s, i);
 }
 
+static int	has_ext_ber(const char *s)
+{
+	int i = 0;
+	while (s[i])
+		i++;
+	if (i < 4)
+		return (0);
+	return (s[i - 4] == '.' && s[i - 3] == 'b'
+		&& s[i - 2] == 'e' && s[i - 1] == 'r');
+}
+
 int	on_close(t_game *g)
 {
 	destroy_textures(g);
@@ -34,6 +45,7 @@ int	on_close(t_game *g)
 		mlx_destroy_display(g->mlx);
 		free(g->mlx);
 	}
+	free_map(g->map);
 	_exit(0);
 	return (0);
 }
@@ -81,15 +93,18 @@ int	main(int ac, char **av)
 	if (ac != 2)
 		return (write(2, "Usage: ./so_long maps/map.ber\n", 30), 1);
 
+	if (!has_ext_ber(av[1]))
+		return (put_error("El mapa debe tener extension .ber"), 1);
+
 	if (!load_map(&g, av[1]))
 		return (1);
 	if (!validate_map(&g))
-		return (1);
+		return (free_map(g.map), 1);
 	if (!init_game_state(&g))
-		return (1);
+		return (free_map(g.map), 1);
 
 	if (!game_init(&g, g.map_w * TILE, g.map_h * TILE, "so_long"))
-		return (1);
+		return (free_map(g.map), 1);
 	if (!init_textures(&g))
 		return (on_close(&g), 1);
 
@@ -101,3 +116,5 @@ int	main(int ac, char **av)
 	mlx_loop(g.mlx);
 	return (0);
 }
+
+

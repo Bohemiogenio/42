@@ -26,7 +26,6 @@ static void	putnbr_line(int n)
 	write(1, buf + i + 1, 31 - i);
 }
 
-/* localizar jugador (P) y contar monedas (C) */
 int	init_game_state(t_game *g)
 {
 	int y;
@@ -60,7 +59,6 @@ int	init_game_state(t_game *g)
 
 static void	do_move(t_game *g, int nx, int ny)
 {
-	/* actualiza mapa y estado */
 	g->map[g->py][g->px] = '0';
 	g->map[ny][nx] = 'P';
 	g->px = nx;
@@ -70,7 +68,6 @@ static void	do_move(t_game *g, int nx, int ny)
 	render_map(g);
 }
 
-/* dx,dy en {-1,0,1} */
 int	try_move(t_game *g, int dx, int dy)
 {
 	int nx;

@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+#include <string.h>
 # include "mlx.h"
 
 # define TILE 64
@@ -87,5 +88,8 @@ int		try_move(t_game *g, int dx, int dy);
 
 /* util */
 int		put_error(const char *msg);
+
+/* path finding (validacion de alcance)*/
+int map_has_valid_path(t_game *g);
 
 #endif
