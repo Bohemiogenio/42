@@ -1,9 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   map_validate.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/18 03:39:26 by raulsanc          #+#    #+#             */
+/*   Updated: 2025/09/18 03:39:28 by raulsanc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
-/* imprime "Error\n" y un mensaje; devuelve 0 para encadenar */
 int	put_error(const char *msg)
 {
-	size_t i;
+	size_t	i;
 
 	write(2, "Error\n", 6);
 	i = 0;
@@ -14,7 +25,6 @@ int	put_error(const char *msg)
 	return (0);
 }
 
-/* Solo 0/1/C/L/E/P y sin líneas vacías (C y L cuentan como coleccionables) */
 static int	valid_chars_and_counts(t_game *g, int *p, int *c, int *e)
 {
 	int		y;
@@ -28,15 +38,16 @@ static int	valid_chars_and_counts(t_game *g, int *p, int *c, int *e)
 	while (y < g->map_h)
 	{
 		if (!g->map[y][0])
-			return (put_error("Linea vacia"));
+			return (put_error("empty line in map"));
 		x = 0;
 		while ((ch = g->map[y][x]) != '\0')
 		{
-			if (ch != '0' && ch != '1' && ch != 'C' && ch != 'L' && ch != 'E' && ch != 'P')
-				return (put_error("Caracter invalido"));
+			if (ch != '0' && ch != '1' && ch != 'C'
+				&& ch != 'E' && ch != 'P')
+				return (put_error("invalid character in map"));
 			if (ch == 'P')
 				(*p)++;
-			else if (ch == 'C' || ch == 'L')
+			else if (ch == 'C')
 				(*c)++;
 			else if (ch == 'E')
 				(*e)++;
@@ -55,7 +66,7 @@ static int	is_rectangular(t_game *g)
 
 	w = g->map_w;
 	if (w <= 0 || g->map_h <= 0)
-		return (put_error("Mapa vacio"));
+		return (put_error("map is empty"));
 	y = 0;
 	while (y < g->map_h)
 	{
@@ -63,7 +74,7 @@ static int	is_rectangular(t_game *g)
 		while (g->map[y][len])
 			len++;
 		if (len != w)
-			return (put_error("Mapa no rectangular"));
+			return (put_error("map is not rectangular"));
 		y++;
 	}
 	return (1);
@@ -78,20 +89,18 @@ static int	walls_closed(t_game *g)
 
 	w = g->map_w;
 	h = g->map_h;
-	/* fila superior e inferior */
 	x = 0;
 	while (x < w)
 	{
 		if (g->map[0][x] != '1' || g->map[h - 1][x] != '1')
-			return (put_error("Mapa no cerrado por muros"));
+			return (put_error("map not closed by walls"));
 		x++;
 	}
-	/* laterales */
 	y = 0;
 	while (y < h)
 	{
 		if (g->map[y][0] != '1' || g->map[y][w - 1] != '1')
-			return (put_error("Mapa no cerrado por muros"));
+			return (put_error("map not closed by walls"));
 		y++;
 	}
 	return (1);
@@ -103,27 +112,19 @@ int	validate_map(t_game *g)
 	int	c;
 	int	e;
 
-	/* 1) forma */
 	if (!is_rectangular(g))
 		return (0);
-
-	/* 2) caracteres y conteos */
 	if (!valid_chars_and_counts(g, &p, &c, &e))
 		return (0);
 	if (p != 1)
-		return (put_error("Debe haber 1 P"));
+		return (put_error("there must be exactly 1 P"));
 	if (c < 1)
-		return (put_error("Debe haber al menos 1 C/L"));
+		return (put_error("at least 1 C required"));
 	if (e < 1)
-		return (put_error("Debe haber al menos 1 E"));
-
-	/* 3) cerrado por muros */
+		return (put_error("at least 1 E required"));
 	if (!walls_closed(g))
 		return (0);
-
-	/* 4) camino: se pueden recoger todos los C/L y alcanzar una E */
 	if (!map_has_valid_path(g))
-		return (put_error("no hay camino para recoger todo y salir"), 0);
-
+		return (put_error("no valid path to collect all C and reach E"), 0);
 	return (1);
 }

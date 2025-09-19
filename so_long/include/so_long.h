@@ -10,27 +10,28 @@
 /*                                                                            */
 /* ************************************************************************** */
 
+
 #ifndef SO_LONG_H
 # define SO_LONG_H
 
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
-#include <string.h>
+# include <string.h>
 # include "mlx.h"
 
 # define TILE 64
 
-/* keycodes */
-# define K_ESC   65307
-# define K_LEFT  65361
-# define K_UP    65362
-# define K_RIGHT 65363
-# define K_DOWN  65364
-# define K_W     119
-# define K_A     97
-# define K_S     115
-# define K_D     100
+/* keycodes (X11 / Linux) */
+# define K_ESC		65307
+# define K_LEFT		65361
+# define K_UP		65362
+# define K_RIGHT	65363
+# define K_DOWN		65364
+# define K_W		119
+# define K_A		97
+# define K_S		115
+# define K_D		100
 
 typedef struct s_img
 {
@@ -58,7 +59,6 @@ typedef struct s_game
 	int			map_w;
 	int			map_h;
 	t_textures	tx;
-
 	int			px;
 	int			py;
 	int			coins;
@@ -69,10 +69,10 @@ typedef struct s_game
 int		on_close(t_game *g);
 int		on_key(int key, t_game *g);
 
-/* ciclo de vida */
+/* lifecycle */
 int		game_init(t_game *g, int w, int h, char *title);
 
-/* mapa */
+/* map */
 int		load_map(t_game *g, const char *path);
 void	free_map(char **m);
 int		validate_map(t_game *g);
@@ -82,14 +82,14 @@ int		init_textures(t_game *g);
 void	destroy_textures(t_game *g);
 void	render_map(t_game *g);
 
-/* juego */
+/* game state */
 int		init_game_state(t_game *g);
 int		try_move(t_game *g, int dx, int dy);
 
-/* util */
+/* utils */
 int		put_error(const char *msg);
 
-/* path finding (validacion de alcance)*/
-int map_has_valid_path(t_game *g);
+/* path finding (reachability validation) */
+int		map_has_valid_path(t_game *g);
 
 #endif

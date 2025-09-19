@@ -12,9 +12,10 @@
 
 #include "so_long.h"
 
+/* write string to given fd */
 static void	putstr_fd(const char *s, int fd)
 {
-	size_t i;
+	size_t	i;
 
 	if (!s)
 		return ;
@@ -24,9 +25,12 @@ static void	putstr_fd(const char *s, int fd)
 	write(fd, s, i);
 }
 
+/* check that filename ends with ".ber" */
 static int	has_ext_ber(const char *s)
 {
-	int i = 0;
+	int	i;
+
+	i = 0;
 	while (s[i])
 		i++;
 	if (i < 4)
@@ -35,6 +39,7 @@ static int	has_ext_ber(const char *s)
 		&& s[i - 2] == 'e' && s[i - 1] == 'r');
 }
 
+/* clean shutdown */
 int	on_close(t_game *g)
 {
 	destroy_textures(g);
@@ -46,10 +51,11 @@ int	on_close(t_game *g)
 		free(g->mlx);
 	}
 	free_map(g->map);
-	_exit(0);
+	exit(0);
 	return (0);
 }
 
+/* keyboard input handler */
 int	on_key(int key, t_game *g)
 {
 	if (key == K_ESC)
@@ -65,6 +71,7 @@ int	on_key(int key, t_game *g)
 	return (0);
 }
 
+/* initialize mlx window */
 int	game_init(t_game *g, int w, int h, char *title)
 {
 	g->mlx = mlx_init();
@@ -82,39 +89,27 @@ int	main(int ac, char **av)
 {
 	t_game	g;
 
-	g.mlx = NULL;
-	g.win = NULL;
-	g.map = NULL;
-	g.map_w = 0;
-	g.map_h = 0;
-	g.width = 0;
-	g.height = 0;
+	/* IMPORTANT: zero-init everything (textures imgs start as NULL) */
+	g = (t_game){0};
 
 	if (ac != 2)
 		return (write(2, "Usage: ./so_long maps/map.ber\n", 30), 1);
-
 	if (!has_ext_ber(av[1]))
-		return (put_error("El mapa debe tener extension .ber"), 1);
-
+		return (put_error("map must have .ber extension"), 1);
 	if (!load_map(&g, av[1]))
 		return (1);
 	if (!validate_map(&g))
 		return (free_map(g.map), 1);
 	if (!init_game_state(&g))
 		return (free_map(g.map), 1);
-
 	if (!game_init(&g, g.map_w * TILE, g.map_h * TILE, "so_long"))
 		return (free_map(g.map), 1);
 	if (!init_textures(&g))
 		return (on_close(&g), 1);
-
 	render_map(&g);
-	putstr_fd("WASD o flechas para moverte. ESC para salir.\n", 1);
-
+	putstr_fd("WASD / arrows to move. ESC to quit.\n", 1);
 	mlx_hook(g.win, 17, 0, on_close, &g);
 	mlx_key_hook(g.win, on_key, &g);
 	mlx_loop(g.mlx);
 	return (0);
 }
-
-

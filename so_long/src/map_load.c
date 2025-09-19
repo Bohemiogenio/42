@@ -12,13 +12,12 @@
 
 #include "so_long.h"
 
-/* Libera mapa parcial si falla malloc en split_lines */
 static void	free_partial(char **m, int rows)
 {
-	int i;
+	int	i;
 
 	if (!m)
-		return;
+		return ;
 	i = 0;
 	while (i < rows)
 	{
@@ -28,7 +27,6 @@ static void	free_partial(char **m, int rows)
 	free(m);
 }
 
-/* Concatena dos buffers a (malloc) + b (buffer), liberando a */
 static char	*str_join_free(char *a, char *b, ssize_t blen)
 {
 	char	*res;
@@ -41,10 +39,7 @@ static char	*str_join_free(char *a, char *b, ssize_t blen)
 		alen++;
 	res = (char *)malloc(alen + blen + 1);
 	if (!res)
-	{
-		free(a);
-		return (NULL);
-	}
+		return (free(a), NULL);
 	i = 0;
 	while (a && a[i])
 	{
@@ -62,83 +57,89 @@ static char	*str_join_free(char *a, char *b, ssize_t blen)
 	return (res);
 }
 
-/* Divide el string completo en líneas y devuelve char** terminado en NULL */
-static char	**split_lines(char *s, int *out_h, int *out_w)
+static void	count_lines_and_width(char *s, int *lines, int *width)
 {
-	int		lines;
-	int		w;
-	int		cur;
-	int		i;
-	int		row;
-	int		start;
-	int		len;
-	int		k;
-	char	**m;
+	int	i;
+	int	cur;
 
-	lines = 0;
-	w = 0;
+	*lines = 0;
+	*width = 0;
 	cur = 0;
 	i = 0;
 	while (s && s[i])
 	{
 		if (s[i] == '\n')
 		{
-			if (cur > w)
-				w = cur;
+			if (cur > *width)
+				*width = cur;
 			cur = 0;
-			lines++;
+			(*lines)++;
 		}
 		else
 			cur++;
 		i++;
 	}
-	/* ✅ Solo añade línea si quedó texto sin \n al final */
 	if (cur > 0)
 	{
-		if (cur > w)
-			w = cur;
-		lines++;
+		if (cur > *width)
+			*width = cur;
+		(*lines)++;
 	}
+}
+
+static char	*copy_line(char *s, int start, int end)
+{
+	int		len;
+	int		k;
+	char	*line;
+
+	len = end - start;
+	line = (char *)malloc(len + 1);
+	if (!line)
+		return (NULL);
+	k = 0;
+	while (k < len)
+	{
+		line[k] = s[start + k];
+		k++;
+	}
+	line[len] = '\0';
+	return (line);
+}
+
+static char	**split_lines(char *s, int *out_h, int *out_w)
+{
+	int		lines;
+	int		w;
+	int		i;
+	int		start;
+	int		row;
+	char	**m;
+
+	count_lines_and_width(s, &lines, &w);
 	m = (char **)malloc(sizeof(char *) * (lines + 1));
 	if (!m)
 		return (NULL);
-	row = 0;
-	start = 0;
 	i = 0;
+	start = 0;
+	row = 0;
 	while (s && s[i])
 	{
 		if (s[i] == '\n')
 		{
-			len = i - start;
-			m[row] = (char *)malloc(len + 1);
+			m[row] = copy_line(s, start, i);
 			if (!m[row])
 				return (free_partial(m, row), NULL);
-			k = 0;
-			while (k < len)
-			{
-				m[row][k] = s[start + k];
-				k++;
-			}
-			m[row][len] = '\0';
 			row++;
 			start = i + 1;
 		}
 		i++;
 	}
-	/* Última línea solo si había cola sin \n (cur > 0) */
-	if (cur > 0)
+	if (i > start)
 	{
-		len = i - start;
-		m[row] = (char *)malloc(len + 1);
+		m[row] = copy_line(s, start, i);
 		if (!m[row])
 			return (free_partial(m, row), NULL);
-		k = 0;
-		while (k < len)
-		{
-			m[row][k] = s[start + k];
-			k++;
-		}
-		m[row][len] = '\0';
 		row++;
 	}
 	m[row] = NULL;
@@ -147,14 +148,13 @@ static char	**split_lines(char *s, int *out_h, int *out_w)
 	return (m);
 }
 
-/* Libera un mapa completo */
 void	free_map(char **m)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	if (!m)
-		return;
+		return ;
 	while (m[i])
 	{
 		free(m[i]);
@@ -163,7 +163,6 @@ void	free_map(char **m)
 	free(m);
 }
 
-/* Lee un archivo de mapa y lo carga en g->map */
 int	load_map(t_game *g, const char *path)
 {
 	int		fd;
@@ -180,10 +179,7 @@ int	load_map(t_game *g, const char *path)
 	{
 		all = str_join_free(all, buf, n);
 		if (!all)
-		{
-			close(fd);
-			return (write(2, "Error\nmalloc\n", 13), 0);
-		}
+			return (close(fd), write(2, "Error\nmalloc\n", 13), 0);
 		n = read(fd, buf, sizeof(buf));
 	}
 	close(fd);

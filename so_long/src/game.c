@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   game.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/18 03:13:34 by raulsanc          #+#    #+#             */
+/*   Updated: 2025/09/18 03:13:36 by raulsanc         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "so_long.h"
 
 static void	putnbr_line(int n)
@@ -12,15 +24,13 @@ static void	putnbr_line(int n)
 	if (nb == 0)
 		buf[i--] = '0';
 	if (nb < 0)
-	{
 		nb = -nb;
-	}
 	while (nb > 0)
 	{
 		buf[i--] = '0' + (nb % 10);
 		nb /= 10;
 	}
-	write(1, "Movimientos: ", 13);
+	write(1, "Moves: ", 7);
 	if (n < 0)
 		write(1, "-", 1);
 	write(1, buf + i + 1, 31 - i);
@@ -28,8 +38,8 @@ static void	putnbr_line(int n)
 
 int	init_game_state(t_game *g)
 {
-	int y;
-	int x;
+	int	y;
+	int	x;
 
 	g->px = -1;
 	g->py = -1;
@@ -53,7 +63,7 @@ int	init_game_state(t_game *g)
 		y++;
 	}
 	if (g->px == -1)
-		return (put_error("No se encontro P"));
+		return (put_error("player 'P' not found"));
 	return (1);
 }
 
@@ -70,9 +80,9 @@ static void	do_move(t_game *g, int nx, int ny)
 
 int	try_move(t_game *g, int dx, int dy)
 {
-	int nx;
-	int ny;
-	char tile;
+	int		nx;
+	int		ny;
+	char	tile;
 
 	nx = g->px + dx;
 	ny = g->py + dy;
@@ -89,7 +99,7 @@ int	try_move(t_game *g, int dx, int dy)
 		{
 			g->moves++;
 			putnbr_line(g->moves);
-			write(1, "Has ganado!\n", 12);
+			write(1, "You win!\n", 9);
 			on_close(g);
 			return (1);
 		}
