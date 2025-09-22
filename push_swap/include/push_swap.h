@@ -6,7 +6,7 @@
 /*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 16:06:41 by raulsanc          #+#    #+#             */
-/*   Updated: 2025/08/22 12:39:31 by raulsanc         ###   ########.fr       */
+/*   Updated: 2025/09/21 19:49:48 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,25 @@
 
 typedef struct s_node
 {
-	int	val; 
+	int	val;
 	int	idx;
-	
-	struct s_node *next;
+
+	struct s_node	*next;
 }	t_node;
 
 /*--stack_utils.c--*/
 t_node	*ps_new(int val);
 t_node	*ps_last(t_node *st);
 void	ps_add_back(t_node **st, t_node *n);
-int	ps_size(t_node *st);
+int		ps_size(t_node *st);
 void	ps_clear(t_node **st);
 
 /*--utils.c--*/
 void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(const char *s, int fd);
-int	ft_isdigit(int c);
-int	ft_isspace(int c);
-int	ps_issorted(t_node *a);
+int		ft_isdigit(int c);
+int		ft_isspace(int c);
+int		ps_issorted(t_node *a);
 
 /*--operations_a.c--*/
 void	sa(t_node **a);
@@ -55,11 +55,11 @@ void	rr(t_node **a, t_node **b);
 void	rrr(t_node **a, t_node **b);
 
 /*--operations_push.c--*/
-void    pb(t_node **a, t_node **b);
-void    pa(t_node **a, t_node **b);
+void	pb(t_node **a, t_node **b);
+void	pa(t_node **a, t_node **b);
 
 /*--parsing.c--*/
-int	parse_args(int ac, char **av, t_node **a);
+int		parse_args(int ac, char **av, t_node **a);
 
 /*--sort_small.c / sort_big.c--*/
 void	sort_small(t_node **a, t_node **b);
