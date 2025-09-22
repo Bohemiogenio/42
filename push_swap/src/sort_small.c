@@ -68,10 +68,8 @@ static void	rotate_to_top(t_node **a, int pos)
 
 	n = ps_size(*a);
 	if (pos <= n / 2)
-	{
 		while (pos--)
 			ra(a);
-	}
 	else
 	{
 		k = n - pos;
@@ -80,32 +78,31 @@ static void	rotate_to_top(t_node **a, int pos)
 	}
 }
 
+static void	push_mins_to_b(t_node **a, t_node **b, int count)
+{
+	while (count--)
+	{
+		rotate_to_top(a, pos_min(*a));
+		pb(a, b);
+	}
+}
+
 void	sort_small(t_node **a, t_node **b)
 {
 	int	n;
-	int	pushes;
-	int	p;
 
 	n = ps_size(*a);
 	if (n <= 1)
 		return ;
-	if (n == 2 && (*a)->val > (*a)->next->val)
+	if (n == 2)
 	{
-		sa(a);
+		if ((*a)->val > (*a)->next->val)
+			sa(a);
 		return ;
 	}
 	if (n == 3)
-	{
-		sort_three(a);
-		return ;
-	}
-	pushes = n - 3;
-	while (pushes--)
-	{
-		p = pos_min(*a);
-		rotate_to_top(a, p);
-		pb(a, b);
-	}
+		return (sort_three(a));
+	push_mins_to_b(a, b, n - 3);
 	sort_three(a);
 	while (*b)
 		pa(a, b);

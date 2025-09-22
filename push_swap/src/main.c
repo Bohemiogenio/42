@@ -12,27 +12,37 @@
 
 #include "push_swap.h"
 
+static int	prepare(int ac, char **av, t_node **a)
+{
+	if (ac < 2)
+		return (2);
+	if (!parse_args(ac, av, a))
+	{
+		ft_putstr_fd("Error\n", 2);
+		ps_clear(a);
+		return (1);
+	}
+	if (!*a || ps_issorted(*a))
+	{
+		ps_clear(a);
+		return (2);
+	}
+	return (0);
+}
+
 int	main(int ac, char **av)
 {
 	t_node	*a;
 	t_node	*b;
+	int		code;
 
 	a = NULL;
 	b = NULL;
-	if (ac < 2)
-		return(0);
-
-	if (!parse_args(ac, av, &a))
-	{
-		ft_putstr_fd("Error\n", 2);
-		ps_clear(&a);
+	code = prepare(ac, av, &a);
+	if (code == 1)
 		return (1);
-	}
-	if (!a || ps_issorted(a))
-	{
-		ps_clear(&a);
+	if (code == 2)
 		return (0);
-	}
 	if (ps_size(a) <= 5)
 		sort_small(&a, &b);
 	else

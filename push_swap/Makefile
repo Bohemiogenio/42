@@ -16,19 +16,21 @@ CFLAGS  = -Wall -Wextra -Werror
 INCS    = -I include
 
 SRC_DIR = src
+OBJ_DIR = obj
 SRCS    = $(wildcard $(SRC_DIR)/*.c $(SRC_DIR)/*/*.c)
-OBJS    = $(SRCS:.c=.o)
+OBJS    = $(patsubst $(SRC_DIR)/%.c,$(OBJ_DIR)/%.o,$(SRCS))
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(INCS) -o $(NAME)
 
-%.o: %.c include/push_swap.h
+$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c include/push_swap.h
+	@mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) $(INCS) -c $< -o $@
 
 clean:
-	rm -f $(OBJS)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	rm -f $(NAME)

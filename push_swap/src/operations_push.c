@@ -12,25 +12,28 @@
 
 #include "push_swap.h"
 
-static void	push(t_node **from, t_node **to, const char *op)
+static int	swap_head(t_node **s)
 {
-	t_node	*tmp;
+	t_node	*first;
+	t_node	*second;
 
-	if (!from || !*from || !to)
-		return ;
-	tmp = *from;
-	*from = (*from)->next;
-	tmp->next = *to;
-	*to = tmp;
-	ft_putstr_fd(op, 1);
+	if (!s || !*s || !(*s)->next)
+		return (0);
+	first = *s;
+	second = first->next;
+	first->next = second->next;
+	second->next = first;
+	*s = second;
+	return (1);
 }
 
-void	pb(t_node **a, t_node **b)
+void	ss(t_node **a, t_node **b)
 {
-	push(a, b, "pb\n");
-}
+	int	did_a;
+	int	did_b;
 
-void	pa(t_node **a, t_node **b)
-{
-	push(b, a, "pa\n");
+	did_a = swap_head(a);
+	did_b = swap_head(b);
+	if (did_a || did_b)
+		ft_putstr_fd("ss\n", 1);
 }
