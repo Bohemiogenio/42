@@ -3,37 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   operations_push.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
+/*   By: marvin <marvin@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/26 15:05:45 by raulsanc          #+#    #+#             */
-/*   Updated: 2025/08/26 15:05:47 by raulsanc         ###   ########.fr       */
+/*   Updated: 2025/09/29 01:05:00 by marvin           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "push_swap.h"
 
-static int	swap_head(t_node **s)
+static void	push(t_node **from, t_node **to, const char *op)
 {
-	t_node	*first;
-	t_node	*second;
+	t_node	*tmp;
 
-	if (!s || !*s || !(*s)->next)
-		return (0);
-	first = *s;
-	second = first->next;
-	first->next = second->next;
-	second->next = first;
-	*s = second;
-	return (1);
+	if (!from || !*from || !to)
+		return ;
+	tmp = *from;
+	*from = (*from)->next;
+	tmp->next = *to;
+	*to = tmp;
+	ft_putstr_fd(op, 1);
 }
 
-void	ss(t_node **a, t_node **b)
+void	pb(t_node **a, t_node **b)
 {
-	int	did_a;
-	int	did_b;
-
-	did_a = swap_head(a);
-	did_b = swap_head(b);
-	if (did_a || did_b)
-		ft_putstr_fd("ss\n", 1);
+	push(a, b, "pb\n");
 }
+
+void	pa(t_node **a, t_node **b)
+{
+	push(b, a, "pa\n");
+}
+
