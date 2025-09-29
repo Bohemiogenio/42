@@ -34,4 +34,3 @@ void	pa(t_node **a, t_node **b)
 {
 	push(b, a, "pa\n");
 }
-
