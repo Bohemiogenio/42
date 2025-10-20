@@ -12,7 +12,6 @@
 
 #include "push_swap.h"
 
-/* Crea un nodo nuevo con el valor dado. idx empieza en -1. */
 t_node	*ps_new(int val)
 {
 	t_node	*node;
@@ -26,7 +25,6 @@ t_node	*ps_new(int val)
 	return (node);
 }
 
-/* Devuelve el último nodo de la lista o NULL si está vacía. */
 t_node	*ps_last(t_node *st)
 {
 	if (!st)
@@ -36,7 +34,6 @@ t_node	*ps_last(t_node *st)
 	return (st);
 }
 
-/* Añade un nodo al final de la lista. */
 void	ps_add_back(t_node **st, t_node *n)
 {
 	t_node	*last;
@@ -52,7 +49,6 @@ void	ps_add_back(t_node **st, t_node *n)
 	last->next = n;
 }
 
-/* Cuenta los elementos de la lista. */
 int	ps_size(t_node *st)
 {
 	int	count;
@@ -66,7 +62,6 @@ int	ps_size(t_node *st)
 	return (count);
 }
 
-/* Libera por completo la lista y la deja en NULL. */
 void	ps_clear(t_node **st)
 {
 	t_node	*tmp;

@@ -32,7 +32,6 @@ int		ps_size(t_node *st);
 void	ps_clear(t_node **st);
 
 /* utils.c */
-void	ft_putnbr_fd(int n, int fd);
 void	ft_putstr_fd(const char *s, int fd);
 int		ft_isdigit(int c);
 int		ft_isspace(int c);
