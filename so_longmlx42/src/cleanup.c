@@ -6,7 +6,7 @@
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 11:37:40 by raulsanc          #+#    #+#             */
-/*   Updated: 2025/11/02 14:26:32 by raulsanc         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:27:55 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,28 +15,29 @@
 /* write msg error */
 void	sl_error(const char *msg)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	write(2, "Error\n", 6);
 	if (msg)
+	{
 		while (msg[i])
 		{
 			write(2, &msg[i], 1);
-		i++;
+			i++;
 		}
+	}
 	write(2, "\n", 1);
-		
 }
 
 /* flag .ber.png */
-int sl_has_extension(const char *path, const char *ext)
+int	sl_has_extension(const char *path, const char *ext)
 {
-	int i;
-	int j;
+	int	i;
+	int	j;
 
 	if (!path || !ext)
-		return(0);
+		return (0);
 	i = 0;
 	while (path[i])
 		i++;
@@ -44,13 +45,13 @@ int sl_has_extension(const char *path, const char *ext)
 	while (ext[j])
 		j++;
 	if (j > i)
-		return(0);
+		return (0);
 	while (j > 0)
 	{
 		if (path[i - 1] != ext[j - 1])
 			return (0);
-	i--;
-	j--;
+		i--;
+		j--;
 	}
 	return (1);
 }
@@ -59,11 +60,9 @@ int sl_has_extension(const char *path, const char *ext)
 void	sl_quit(t_game *g, int status)
 {
 	if (g && g->mlx)
-	{	
+	{
 		mlx_close_window(g->mlx);
 		mlx_terminate(g->mlx);
 	}
 	_exit(status);
 }
-
-	

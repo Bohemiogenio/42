@@ -6,7 +6,7 @@
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/02 12:57:11 by raulsanc          #+#    #+#             */
-/*   Updated: 2025/11/02 13:16:20 by raulsanc         ###   ########.fr       */
+/*   Updated: 2025/11/03 15:29:24 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 /* Exit keyboard ESC */
 void	sl_key_hook(mlx_key_data_t keydata, void *param)
 {
-	t_game *g;
+	t_game	*g;
 
 	g = (t_game *)param;
 	if (!g || !g->mlx)
@@ -27,10 +27,10 @@ void	sl_key_hook(mlx_key_data_t keydata, void *param)
 /* Exit click (X) */
 void	sl_close_hook(void *param)
 {
-	t_game *g;
-	
+	t_game	*g;
+
 	g = (t_game *)param;
-	if(!g || !g->mlx)
+	if (!g || !g->mlx)
 		return ;
 	mlx_close_window(g->mlx);
 }

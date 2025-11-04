@@ -5,51 +5,46 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/02 14:59:07 by raulsanc          #+#    #+#             */
-/*   Updated: 2025/11/02 17:35:21 by raulsanc         ###   ########.fr       */
+/*   Created: 2025/11/03 13:33:21 by raulsanc          #+#    #+#             */
+/*   Updated: 2025/11/03 15:46:27 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "so_long.h"
-#include <fcntl.h>
-#include <sys/stat.h>
-#include <sys/types.h>
-#include <unistd.h>
-#include <stdlib.h>
-
-static char	*sl_read_all(const char *path, size_t *out_len)
+static char	**sl_split_lines(const char *buf)
 {
-	int	fd;
-	struct stat st;
-	ssize_t	nread;
-	size_t	to:wread;
-	size_t	pos;
-	char	*buf;
+	size_t	i;
+	size_t	start;
+	size_t	row;
+	size_t	len;
+	char	**out;
 
-	if (stat(path, &st) == -1 || st.st_size < 0)
+	out = malloc(sizeof(char *) * (sl_count_lines(buf) + 1));
+	if (!out)
 		return (NULL);
-	toread = (size_t)st.st_size;
-
-	fd = open(path, O_RDONLY);
-	if (fd < 0)
-		return (NULL);
-
-	buf = malloc(sizeof(char) * (toread + 1));
-	if (!buf)
-		return (close(fd), NULL);
-	pos = 0;
-	while(pos < toread)
+	i = 0;
+	start = 0;
+	row = 0;
+	while (buf[i])
 	{
-		nread = read(fd, buf + pos, toread - pos);
-		if (nread <= 0)
-			break ;
-		pos += (size_t)nread;
+		if (buf[i] == '\n')
+		{
+			len = i - start;
+			out[row] = sl_copy_line(buf, start, len);
+			if (!out[row])
+				return (sl_free_partial(out, row), NULL);
+			row++;
+			start = i + 1;
+		}
+		i++;
 	}
-	close(fd);
-	if (pos != toread)
-		return (free(buf), NULL);
-	buf[pos] = '\0';
-	if (out_len)
-		*out_len = pos;
-	return (buf);
+	if (i > start)
+	{
+		len = i - start;
+		out[row] = sl_copy_line(buf, start, len);
+		if (!out[row])
+			return (sl_free_partial(out, row), NULL);
+		row++;
+	}
+	out[row] = NULL;
+	return (out);
 }
