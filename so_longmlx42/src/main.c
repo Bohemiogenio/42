@@ -5,36 +5,47 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/03 14:06:40 by raulsanc          #+#    #+#             */
-/*   Updated: 2025/11/03 14:06:42 by raulsanc         ###   ########.fr       */
+/*   Created: 2025/11/08 17:53:25 by raulsanc          #+#    #+#             */
+/*   Updated: 2025/11/08 17:53:32 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-/* Initialize game, check arguments, init MLX42, register hooks and exit cleanly */
-int main(int ac, char **av)
+static void	print_usage(const char *prog)
 {
-	t_game g;
+	write(2, "Uso: ", 5);
+	write(2, prog, (int)ft_strlen(prog));
+	write(2, " ruta_al_mapa.ber\n", 18);
+}
 
-	g.mlx = NULL;
+static int	fail(const char *msg, t_game *g)
+{
+	write(2, msg, (int)ft_strlen(msg));
+	if (g && g->map)
+		free_map(g->map, g->rows);
+	return (1);
+}
 
-	if (ac != 2 || !sl_has_extension(av[1], ".ber"))
-	{
-		sl_error("Usage: ./so_long <map_file.ber>");
-		sl_quit(&g, 1);
-	}
-	
-	g.mlx = mlx_init(640, 480, "so_long", false);
-	if (!g.mlx)
-	{
-		sl_error("Failed to initialize MLX42");
-		sl_quit(&g, 1);
+int	main(int ac, char **av)
+{
+	t_game	g;
 
-	}
-	
-	mlx_key_hook(g.mlx, &sl_key_hook, &g);
-	mlx_close_hook(g.mlx, &sl_close_hook, &g);
-	mlx_loop(g.mlx);
-	sl_quit(&g, 0);
+	if (ac != 2)
+		return (print_usage(av[0]), 1);
+	if (!has_ber_extension(av[1]))
+		return (fail("ERROR: extension .ber\n", NULL));
+	if (load_map(av[1], &g) != 0)
+		return (fail("ERROR: lectura mapa\n", NULL));
+	if (!is_rectangular(&g))
+		return (fail("ERROR: no rectangular\n", &g));
+	if (!validate_charset_counts(&g))
+		return (fail("ERROR: charset/C/E/P\n", &g));
+	if (!is_closed_by_walls(&g))
+		return (fail("ERROR: paredes\n", &g));
+	if (!validate_path(&g))
+		return (fail("ERROR: camino inaccesible\n", &g));
+	if (game_open_window(&g) != 0)
+		return (fail("ERROR: mlx42\n", &g));
+	return (game_loop(&g));
 }

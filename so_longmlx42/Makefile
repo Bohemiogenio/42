@@ -5,47 +5,75 @@
 #                                                     +:+ +:+         +:+      #
 #    By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2025/11/02 14:16:03 by raulsanc          #+#    #+#              #
-#    Updated: 2025/11/02 14:16:13 by raulsanc         ###   ########.fr        #
+#    Created: 2025/11/06 16:20:00 by raulsanc          #+#    #+#              #
+#    Updated: 2025/11/08 18:10:51 by raulsanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME	= so_long
+NAME		= so_long
 
-CC	= cc
-CFLAGS	= -Wall -Wextra -Werror -I include -I $(MLX42_DIR)/include
-LDFLAGS	= $(MLX42_DIR)/build/libmlx42.a -lglfw -ldl -lm -pthread
+# ==== DIRECTORIOS ====
+SRC_DIR		= src
+INC_DIR		= include
+LIBFT_DIR	= libft
+GNL_DIR		= gnl
+MLX_DIR		= MLX42
 
-MLX42_DIR	= MLX42
+# ==== LIBRERÍAS ====
+LIBFT_LIB	= $(LIBFT_DIR)/libft.a
+GNL_LIB		= $(GNL_DIR)/libgnl.a
+MLX_LIB		= $(MLX_DIR)/build/libmlx42.a
 
-SRC_DIR	= src
-OBJ_DIR	= obj
+# ==== FLAGS ====
+CC			= cc
+CFLAGS		= -Wall -Wextra -Werror -I$(INC_DIR) -I$(LIBFT_DIR) -I$(GNL_DIR) -I$(MLX_DIR)/include
+MLX_FLAGS	= $(MLX_LIB) -ldl -lglfw -pthread -lm
 
-SRC	= $(SRC_DIR)/main.c \
-	$(SRC_DIR)/hooks.c \
-	$(SRC_DIR)/cleanup.c
+# ==== FUENTES ====
+SRC			= $(SRC_DIR)/main.c \
+			  $(SRC_DIR)/ber_check.c \
+			  $(SRC_DIR)/load_map.c \
+			  $(SRC_DIR)/validate_rect.c \
+			  $(SRC_DIR)/validate_charset.c \
+			  $(SRC_DIR)/validate_walls.c \
+			  $(SRC_DIR)/validate_path.c \
+			  $(SRC_DIR)/init_mlx42.c
 
-OBJ	= $(SRC:$(SRC_DIR)/%.c=$(OBJ_DIR)/%.o)
+OBJ			= $(SRC:.c=.o)
+
+# ==== REGLAS ====
 
 all: $(NAME)
 
 $(NAME): $(OBJ)
-	$(CC) $(OBJ) $(LDFLAGS) -o $(NAME)
-	@echo "\033[32m[OK]\033[0m Built $(NAME)"
+	make -C $(LIBFT_DIR)
+	make -C $(GNL_DIR)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFT_LIB) $(GNL_LIB) $(MLX_FLAGS) -o $(NAME)
 
-$(OBJ_DIR)/%.o: $(SRC_DIR)/%.c | $(OBJ_DIR)
+%.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
-	@echo "\033[33m[CC]\033[0m $<"
-
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
 
 clean:
-	rm -rf $(OBJ_DIR)
+	make clean -C $(LIBFT_DIR)
+	make clean -C $(GNL_DIR)
+	rm -f $(OBJ)
 
 fclean: clean
+	make fclean -C $(LIBFT_DIR)
+	make fclean -C $(GNL_DIR)
 	rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re
+# ==== UTILS ====
+mlx:
+	cmake -B $(MLX_DIR)/build -S $(MLX_DIR)
+	cmake --build $(MLX_DIR)/build -j
+
+run: all
+	./$(NAME) maps/ok.ber
+
+norm:
+	norminette $(SRC_DIR) $(INC_DIR)
+
+.PHONY: all clean fclean re mlx run norm
