@@ -6,7 +6,7 @@
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 13:17:05 by raulsanc          #+#    #+#             */
-/*   Updated: 2025/11/11 13:31:12 by Raulsanc         ###   ########.fr       */
+/*   Updated: 2025/11/11 19:20:10 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <stdlib.h>
 # include <fcntl.h>
 # include <unistd.h>
-
+# include <MLX42/MLX42.h>
 # include "../libft/libft.h"
 # include "../gnl/get_next_line.h"
 
@@ -31,6 +31,10 @@ typedef struct s_game
 	void	*img_player;
 	void	*img_collect;
 	void	*img_exit;
+	int	player_x;
+	int	player_y;
+	int	moves;
+	int	player_inst;
 }	t_game;
 
 /* load_map.c */
@@ -55,5 +59,8 @@ int		render_basic_draw(t_game *g);
 /* render_sprites */
 int		render_sprites_init(t_game *g);
 int		render_sprites_draw(t_game *g);
+
+/* Player_input */
+void	handle_input(mlx_key_data_t keydata, void *param);
 
 #endif
