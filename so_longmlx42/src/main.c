@@ -6,7 +6,7 @@
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/08 17:53:25 by raulsanc          #+#    #+#             */
-/*   Updated: 2025/11/10 13:22:30 by raulsanc         ###   ########.fr       */
+/*   Updated: 2025/11/11 13:34:06 by Raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,10 @@ int	main(int ac, char **av)
 		return (fail("ERROR: camino inaccesible\n", &g));
 	if (game_open_window(&g) != 0)
 		return (fail("ERROR: mlx42\n", &g));
-	if (render_basic_init(&g) != 0)
-		return (fail("ERROR: render init\n", &g));
-	if (render_basic_draw(&g) != 0)
-		return (fail("ERROR: render draw\n", &g));
+	if (render_sprites_init(&g) != 0)
+		return (fail("ERROR: sprites init\n", &g));
+	if (render_sprites_draw(&g) != 0)
+		return (fail("ERROR: sprites draw\n", &g));
 
 	return (game_loop(&g));
 }

@@ -6,7 +6,7 @@
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 13:17:05 by raulsanc          #+#    #+#             */
-/*   Updated: 2025/11/10 15:19:23 by raulsanc         ###   ########.fr       */
+/*   Updated: 2025/11/11 13:31:12 by Raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,9 @@ typedef struct s_game
 	void	*mlx;
 	void	*img_floor;
 	void	*img_wall;
+	void	*img_player;
+	void	*img_collect;
+	void	*img_exit;
 }	t_game;
 
 /* load_map.c */
@@ -48,5 +51,9 @@ int		game_loop(t_game *g);
 /* render_basic */
 int		render_basic_init(t_game *g);
 int		render_basic_draw(t_game *g);
+
+/* render_sprites */
+int		render_sprites_init(t_game *g);
+int		render_sprites_draw(t_game *g);
 
 #endif
