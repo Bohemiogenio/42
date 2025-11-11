@@ -6,7 +6,7 @@
 #    By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/06 16:20:00 by raulsanc          #+#    #+#              #
-#    Updated: 2025/11/11 13:34:52 by Raulsanc         ###   ########.fr        #
+#    Updated: 2025/11/11 15:07:49 by Raulsanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/validate_path.c \
 			  $(SRC_DIR)/init_mlx42.c \
 			  $(SRC_DIR)/render_sprites.c \
+
 OBJ			= $(SRC:.c=.o)
 
 # ==== REGLAS ====

@@ -13,7 +13,7 @@
 #include "so_long.h"
 #include <MLX42/MLX42.h>
 
-#define TILE 32
+#define TILE 64
 
 static int	load_img(mlx_t *mlx, const char *path, mlx_image_t **out)
 {
