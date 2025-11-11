@@ -6,7 +6,7 @@
 #    By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/06 16:20:00 by raulsanc          #+#    #+#              #
-#    Updated: 2025/11/08 18:10:51 by raulsanc         ###   ########.fr        #
+#    Updated: 2025/11/10 13:23:17 by raulsanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,8 +37,8 @@ SRC			= $(SRC_DIR)/main.c \
 			  $(SRC_DIR)/validate_charset.c \
 			  $(SRC_DIR)/validate_walls.c \
 			  $(SRC_DIR)/validate_path.c \
-			  $(SRC_DIR)/init_mlx42.c
-
+			  $(SRC_DIR)/init_mlx42.c \
+			  $(SRC_DIR)/render_basic.c
 OBJ			= $(SRC:.c=.o)
 
 # ==== REGLAS ====
