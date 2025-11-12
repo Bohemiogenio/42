@@ -35,6 +35,8 @@ typedef struct s_game
 	int	player_y;
 	int	moves;
 	int	player_inst;
+	int	total_collect;
+	int	collected;
 }	t_game;
 
 /* load_map.c */

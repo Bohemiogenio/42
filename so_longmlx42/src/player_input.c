@@ -12,7 +12,38 @@
 
 #include "so_long.h"
 
-#define TILE 64
+#define TILE     64
+#define Z_WIPE   5  
+
+static void	wipe_collect_tile(t_game *game, int x, int y)
+{
+	int	id;
+
+	id = mlx_image_to_window((mlx_t *)game->mlx,
+			(mlx_image_t *)game->img_floor, x * TILE, y * TILE);
+	((mlx_image_t *)game->img_floor)->instances[id].z = Z_WIPE;
+}
+
+static void	do_collect_if_any(t_game *game, int x, int y)
+{
+	if (game->map[y][x] == 'C')
+	{
+		game->map[y][x] = '0';
+		game->collected++;
+		wipe_collect_tile(game, x, y);
+	}
+}
+
+static int	try_finish_if_exit(t_game *game, int x, int y)
+{
+	if (game->map[y][x] == 'E' && game->collected == game->total_collect)
+	{
+		printf("You win in %d moves!\n", game->moves);
+		mlx_close_window(game->mlx);
+		return (1);
+	}
+	return (0);
+}
 
 static void	move_player(t_game *game, int dx, int dy)
 {
@@ -26,16 +57,18 @@ static void	move_player(t_game *game, int dx, int dy)
 		return ;
 	if (game->map[ny][nx] == '1')
 		return ;
+	do_collect_if_any(game, nx, ny);
 	game->player_x = nx;
 	game->player_y = ny;
 	game->moves++;
 	printf("Moves: %d\n", game->moves);
+	if (try_finish_if_exit(game, nx, ny))
+		return ;
 	img = (mlx_image_t *)game->img_player;
 	if (img && img->count > 0)
 	{
 		img->instances[game->player_inst].x = game->player_x * TILE;
 		img->instances[game->player_inst].y = game->player_y * TILE;
-		/* por si alguna imagen lo tapa, reasegura z */
 		img->instances[game->player_inst].z = 10;
 	}
 }

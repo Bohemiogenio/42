@@ -11,6 +11,7 @@
 /* ************************************************************************** */
 
 #include "so_long.h"
+#include <MLX42/MLX42.h>
 
 #define TILE     64
 #define Z_FLOOR   0
@@ -31,8 +32,10 @@ static int	load_img(mlx_t *mlx, const char *path, mlx_image_t **out)
 	if (!img)
 		return (1);
 	if ((int)img->width != TILE || (int)img->height != TILE)
+	{
 		if (!mlx_resize_image(img, TILE, TILE))
 			return (mlx_delete_image(mlx, img), 1);
+	}
 	*out = img;
 	return (0);
 }
@@ -83,6 +86,7 @@ static void	put_cell(t_game *g, int y, int x)
 	{
 		id = mlx_image_to_window(mlx, (mlx_image_t *)g->img_collect, x * TILE, y * TILE);
 		((mlx_image_t *)g->img_collect)->instances[id].z = Z_ITEM;
+		g->total_collect++;
 	}
 	else if (g->map[y][x] == 'E')
 	{
@@ -96,6 +100,7 @@ int	render_sprites_draw(t_game *g)
 	int	y;
 	int	x;
 
+	g->total_collect = 0;
 	y = 0;
 	while (y < g->rows)
 	{
