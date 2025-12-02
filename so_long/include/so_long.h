@@ -6,7 +6,7 @@
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/11/10 13:17:05 by raulsanc          #+#    #+#             */
-/*   Updated: 2025/11/11 19:20:10 by raulsanc         ###   ########.fr       */
+/*   Updated: 2025/12/03 00:10:00 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,55 +14,66 @@
 # define SO_LONG_H
 
 # include <stdlib.h>
-# include <fcntl.h>
 # include <unistd.h>
+# include <fcntl.h>
 # include <MLX42/MLX42.h>
 # include "../libft/libft.h"
 # include "../gnl/get_next_line.h"
 
+# define TILE_SIZE 64
+
 typedef struct s_game
 {
-	char	**map;
-	int		rows;
-	int		cols;
-	void	*mlx;
-	void	*img_floor;
-	void	*img_wall;
-	void	*img_player;
-	void	*img_collect;
-	void	*img_exit;
-	int	player_x;
-	int	player_y;
-	int	moves;
-	int	player_inst;
-	int	total_collect;
-	int	collected;
+	char			**map;
+	int				rows;
+	int				cols;
+	mlx_t			*mlx;
+	mlx_texture_t	*tx_floor;
+	mlx_texture_t	*tx_wall;
+	mlx_texture_t	*tx_player;
+	mlx_texture_t	*tx_collect;
+	mlx_texture_t	*tx_exit;
+	mlx_image_t		*img_floor;
+	mlx_image_t		*img_wall;
+	mlx_image_t		*img_player;
+	mlx_image_t		*img_collect;
+	mlx_image_t		*img_exit;
+	int				player_x;
+	int				player_y;
+	int				total_collect;
+	int				collected;
+	int				moves;
 }	t_game;
 
-/* load_map.c */
+typedef struct s_bfs
+{
+	int	qx[10000];
+	int	qy[10000];
+	int	start;
+	int	end;
+}	t_bfs;
+
 int		load_map(const char *path, t_game *g);
-int		has_ber_extension(const char *path);
 void	free_map(char **map, int rows);
 
-/* validaciones */
+int		has_ber_extension(const char *path);
+
 int		is_rectangular(t_game *g);
 int		validate_charset_counts(t_game *g);
 int		is_closed_by_walls(t_game *g);
 int		validate_path(t_game *g);
 
-/* init_mlx42.c */
+void	queue_push(t_bfs *b, int x, int y);
+
 int		game_open_window(t_game *g);
-int		game_loop(t_game *g);
 
-/* render_basic */
-int		render_basic_init(t_game *g);
-int		render_basic_draw(t_game *g);
-
-/* render_sprites */
+void	render_map(t_game *g);
 int		render_sprites_init(t_game *g);
-int		render_sprites_draw(t_game *g);
 
-/* Player_input */
 void	handle_input(mlx_key_data_t keydata, void *param);
+
+void	exit_error(t_game *g, const char *msg);
+void	free_all(t_game *g);
+void	print_moves(t_game *g);
 
 #endif

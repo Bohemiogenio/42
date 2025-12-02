@@ -6,7 +6,7 @@
 #    By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/11/06 16:20:00 by raulsanc          #+#    #+#              #
-#    Updated: 2025/11/11 19:15:20 by raulsanc         ###   ########.fr        #
+#    Updated: 2025/12/02 21:10:00 by raulsanc         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -30,16 +30,18 @@ CFLAGS		= -Wall -Wextra -Werror -I$(INC_DIR) -I$(LIBFT_DIR) -I$(GNL_DIR) -I$(MLX
 MLX_FLAGS	= $(MLX_LIB) -ldl -lglfw -pthread -lm
 
 # ==== FUENTES ====
-SRC			= $(SRC_DIR)/main.c \
-			  $(SRC_DIR)/ber_check.c \
-			  $(SRC_DIR)/load_map.c \
-			  $(SRC_DIR)/validate_rect.c \
-			  $(SRC_DIR)/validate_charset.c \
-			  $(SRC_DIR)/validate_walls.c \
-			  $(SRC_DIR)/validate_path.c \
-			  $(SRC_DIR)/init_mlx42.c \
-			  $(SRC_DIR)/render_sprites.c \
-			  $(SRC_DIR)/player_input.c
+SRC         = $(SRC_DIR)/main.c \
+              $(SRC_DIR)/ber_check.c \
+              $(SRC_DIR)/load_map.c \
+              $(SRC_DIR)/validate_rect.c \
+              $(SRC_DIR)/validate_charset.c \
+              $(SRC_DIR)/validate_walls.c \
+              $(SRC_DIR)/validate_path.c \
+              $(SRC_DIR)/validate_path_utils.c \
+              $(SRC_DIR)/init_mlx42.c \
+              $(SRC_DIR)/render_sprites.c \
+              $(SRC_DIR)/player_input.c \
+              $(SRC_DIR)/utils.c
 
 OBJ			= $(SRC:.c=.o)
 

@@ -1,26 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ber_check.c                                        :+:      :+:    :+:   */
+/*   validate_rect.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/11/08 12:16:44 by raulsanc          #+#    #+#             */
-/*   Updated: 2025/11/08 14:17:02 by raulsanc         ###   ########.fr       */
+/*   Created: 2025/11/08 16:20:44 by raulsanc          #+#    #+#             */
+/*   Updated: 2025/12/02 23:10:00 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "so_long.h"
 
-/* Flag .ber */
-int	has_ber_extension(const char *path)
+int	is_rectangular(t_game *g)
 {
-	size_t	len;
+	int	i;
+	int	len;
 
-	if (!path)
+	if (!g->map || g->rows < 1)
 		return (0);
-	len = ft_strlen(path);
-	if (len < 5)
-		return (0);
-	return (ft_strncmp(path + (len - 4), ".ber", 4) == 0);
+	len = ft_strlen(g->map[0]);
+	i = 1;
+	while (i < g->rows)
+	{
+		if ((int)ft_strlen(g->map[i]) != len)
+			return (0);
+		i++;
+	}
+	g->cols = len;
+	return (1);
 }
