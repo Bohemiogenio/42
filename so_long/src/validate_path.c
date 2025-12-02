@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+/* Duplicate the map into a new matrix for BFS */
 static char	**dup_map(t_game *g)
 {
 	char	**copy;
@@ -34,6 +35,7 @@ static char	**dup_map(t_game *g)
 	return (copy);
 }
 
+/* Try to move BFS to a new cell if it is not a wall or visited */
 static void	try_move(char **m, t_bfs *b, int x, int y)
 {
 	if (m[y][x] == '1' || m[y][x] == 'V')
@@ -42,6 +44,7 @@ static void	try_move(char **m, t_bfs *b, int x, int y)
 	queue_push(b, x, y);
 }
 
+/* Process the current BFS tile and update collectibles and exit reachability */
 static void	process_tile(t_game *g, char **m, t_bfs *b, int *c_e)
 {
 	int	x;
@@ -60,6 +63,7 @@ static void	process_tile(t_game *g, char **m, t_bfs *b, int *c_e)
 	try_move(m, b, x, y - 1);
 }
 
+/* Run a BFS to check that all collectibles and exit are reachable */
 static int	bfs(t_game *g, char **m)
 {
 	t_bfs	b;
@@ -78,6 +82,7 @@ static int	bfs(t_game *g, char **m)
 	return (0);
 }
 
+/* Validate that there is a valid path through the map */
 int	validate_path(t_game *g)
 {
 	char	**copy;

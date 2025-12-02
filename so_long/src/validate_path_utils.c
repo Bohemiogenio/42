@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+/* Push a position into the BFS queue */
 void	queue_push(t_bfs *b, int x, int y)
 {
 	b->qx[b->end] = x;

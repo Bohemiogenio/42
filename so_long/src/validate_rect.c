@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+/* Check that all rows have the same length (rectangular map) */
 int	is_rectangular(t_game *g)
 {
 	int	i;

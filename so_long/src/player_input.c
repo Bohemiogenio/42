@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+/* Disable the collectible image at map position (x, y) */
 static void	hide_collect(t_game *g, int x, int y)
 {
 	size_t	i;
@@ -36,6 +37,7 @@ static void	hide_collect(t_game *g, int x, int y)
 	}
 }
 
+/* Handle picking up a collectible at position (x, y) */
 static void	collect_item(t_game *g, int x, int y)
 {
 	g->collected++;
@@ -43,6 +45,7 @@ static void	collect_item(t_game *g, int x, int y)
 	hide_collect(g, x, y);
 }
 
+/* Update player position and image instance, and print moves */
 static void	update_player_pos(t_game *g, int x, int y)
 {
 	g->player_x = x;
@@ -53,6 +56,7 @@ static void	update_player_pos(t_game *g, int x, int y)
 	print_moves(g);
 }
 
+/* Apply movement logic for the player and handle exit condition */
 static void	move_player(t_game *g, int dx, int dy)
 {
 	int		new_x;
@@ -76,6 +80,7 @@ static void	move_player(t_game *g, int dx, int dy)
 	}
 }
 
+/* MLX key hook: handle keyboard input events */
 void	handle_input(mlx_key_data_t keydata, void *param)
 {
 	t_game	*game;

@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+/* Check that the top and bottom rows are all walls */
 static int	check_top_bottom(t_game *g)
 {
 	int	i;
@@ -26,6 +27,7 @@ static int	check_top_bottom(t_game *g)
 	return (1);
 }
 
+/* Check that the first and last column of each row are walls */
 static int	check_sides(t_game *g)
 {
 	int	i;
@@ -40,6 +42,7 @@ static int	check_sides(t_game *g)
 	return (1);
 }
 
+/* Verify that the map is completely surrounded by walls */
 int	is_closed_by_walls(t_game *g)
 {
 	if (!check_top_bottom(g))

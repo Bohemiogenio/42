@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+/* Initialize game structure fields with default values */
 static void	init_game(t_game *g)
 {
 	g->map = NULL;
@@ -35,6 +36,7 @@ static void	init_game(t_game *g)
 	g->moves = 0;
 }
 
+/* Initialize game structure fields with default values */
 static void	check_map(t_game *g, char *path)
 {
 	if (!has_ber_extension(path))
@@ -51,6 +53,7 @@ static void	check_map(t_game *g, char *path)
 		exit_error(g, "No valid path");
 }
 
+/* Load and validate the map file */
 int	main(int argc, char **argv)
 {
 	t_game	g;

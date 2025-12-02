@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+/* Print current number of moves to standard output */
 void	print_moves(t_game *g)
 {
 	ft_putstr_fd("Moves: ", 1);
@@ -19,6 +20,7 @@ void	print_moves(t_game *g)
 	ft_putstr_fd("\n", 1);
 }
 
+/* Free all MLX images used in the game */
 static void	free_images(t_game *g)
 {
 	if (!g->mlx)
@@ -40,6 +42,7 @@ static void	free_images(t_game *g)
 	g->img_exit = NULL;
 }
 
+/* Free all MLX textures used in the game */
 static void	free_textures(t_game *g)
 {
 	if (g->tx_floor)
@@ -59,6 +62,7 @@ static void	free_textures(t_game *g)
 	g->tx_exit = NULL;
 }
 
+/* Free all allocated resources: map, images, textures and MLX */
 void	free_all(t_game *g)
 {
 	if (g->map)
@@ -75,6 +79,7 @@ void	free_all(t_game *g)
 	}
 }
 
+/* Print an error message, free resources and exit the program */
 void	exit_error(t_game *g, const char *msg)
 {
 	write(2, "Error\n", 6);

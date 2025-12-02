@@ -12,12 +12,14 @@
 
 #include "so_long.h"
 
+/* Check if a given character is allowed in the map */
 static int	is_valid_char(char c)
 {
 	return (c == '0' || c == '1' || c == 'C'
 		|| c == 'E' || c == 'P');
 }
 
+/* Process one tile: validate char and update counts and player position */
 static void	process_tile(t_game *g, int x, int y, int *p_e)
 {
 	char	c;
@@ -37,6 +39,7 @@ static void	process_tile(t_game *g, int x, int y, int *p_e)
 		g->total_collect++;
 }
 
+/* Validate allowed chars and the number of P, E and C in the map */
 int	validate_charset_counts(t_game *g)
 {
 	int	i;

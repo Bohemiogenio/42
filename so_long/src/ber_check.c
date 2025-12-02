@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+/* Check if the file has the .ber extension */
 int	has_ber_extension(const char *path)
 {
 	int	len;

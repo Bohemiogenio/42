@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+/* Draw a single cell of the map at coordinates (x, y) */
 static void	draw_cell(t_game *g, int x, int y)
 {
 	if (g->map[y][x] == '1')
@@ -28,6 +29,7 @@ static void	draw_cell(t_game *g, int x, int y)
 			x * TILE_SIZE, y * TILE_SIZE);
 }
 
+/* Render the full map and place the player image */
 void	render_map(t_game *g)
 {
 	int	x;
@@ -48,6 +50,7 @@ void	render_map(t_game *g)
 		g->player_x * TILE_SIZE, g->player_y * TILE_SIZE);
 }
 
+/* Placeholder for extra sprite initialization if needed */
 int	render_sprites_init(t_game *g)
 {
 	(void)g;

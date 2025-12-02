@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+/* Free a dynamically allocated map of given number of rows */
 void	free_map(char **map, int rows)
 {
 	int	i;
@@ -27,6 +28,7 @@ void	free_map(char **map, int rows)
 	free(map);
 }
 
+/* Count how many lines (rows) the map file has */
 static int	count_rows(const char *path)
 {
 	int		fd;
@@ -48,6 +50,7 @@ static int	count_rows(const char *path)
 	return (rows);
 }
 
+/* Allocate memory for the map matrix */
 static char	**alloc_map(int rows)
 {
 	char	**map;
@@ -58,6 +61,7 @@ static char	**alloc_map(int rows)
 	return (map);
 }
 
+/* Read map lines, trim newlines and fill the map array */
 static int	fill_map_rows(int fd, t_game *g)
 {
 	int		i;
@@ -81,6 +85,7 @@ static int	fill_map_rows(int fd, t_game *g)
 	return (1);
 }
 
+/* Load the map from a file into the game structure */
 int	load_map(const char *path, t_game *g)
 {
 	int	fd;

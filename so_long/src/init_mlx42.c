@@ -12,6 +12,7 @@
 
 #include "so_long.h"
 
+/* Load all textures from PNG files */
 static int	load_textures(t_game *g)
 {
 	g->tx_floor = mlx_load_png("assets/floor.png");
@@ -25,6 +26,7 @@ static int	load_textures(t_game *g)
 	return (1);
 }
 
+/* Convert textures to images for rendering */
 static int	init_images(t_game *g)
 {
 	g->img_floor = mlx_texture_to_image(g->mlx, g->tx_floor);
@@ -38,6 +40,7 @@ static int	init_images(t_game *g)
 	return (1);
 }
 
+/* Resize all images to the TILE_SIZE resolution */
 static int	resize_images(t_game *g)
 {
 	if (!mlx_resize_image(g->img_floor, TILE_SIZE, TILE_SIZE))
@@ -53,6 +56,7 @@ static int	resize_images(t_game *g)
 	return (1);
 }
 
+/* Initialize MLX window, load and prepare textures and images */
 int	game_open_window(t_game *g)
 {
 	g->mlx = mlx_init(g->cols * TILE_SIZE, g->rows * TILE_SIZE,
