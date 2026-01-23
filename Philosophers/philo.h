@@ -6,7 +6,7 @@
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:13:02 by raulsanc          #+#    #+#             */
-/*   Updated: 2026/01/16 20:34:07 by raulsanc         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:07:21 by Raul             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,4 +53,8 @@ int	ft_atoi_positive(const char *s);
 
 int	init_program(t_program *p);
 void	destroy_program(t_program *p);
+
+long long	now_ms(void);
+void	precise_sleep(long long ms, t_program *p);
+int	should_stop(t_program *p);
 #endif

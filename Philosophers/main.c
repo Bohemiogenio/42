@@ -6,7 +6,7 @@
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:44:03 by raulsanc          #+#    #+#             */
-/*   Updated: 2026/01/16 20:30:16 by raulsanc         ###   ########.fr       */
+/*   Updated: 2026/01/23 16:12:29 by Raul             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 int main(int ac, char **av)
 {
 	t_program	p;
+	long long	t0;
+	long long	t1;
 	
 	if (parse_args(ac, av, &p))
 		return (1);
@@ -23,9 +25,12 @@ int main(int ac, char **av)
 		write(2, "Error; init failed\n", 19);
 		return (1);
 	}
-	printf("INIT OK -> forks=%p philo=%p\n", (void *)p.forks, (void *)p.philos);
-	printf("philo1: id=%d left=%p rigth=%p\n",
-		p.philos[0].id, (void *)p.philos[0].left_fork, (void *)p.philos[0].rigth_fork);
+
+	t0 = now_ms();
+	precise_sleep(300, &p);
+	t1 = now_ms();
+	printf("slept ~%lld ms\n", (t1 - t0));
+
 	destroy_program(&p);
 	return (0);
 }
