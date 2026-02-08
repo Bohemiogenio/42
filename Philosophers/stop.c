@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   stop.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/02 13:45:26 by raulsanc          #+#    #+#             */
-/*   Updated: 2026/02/02 13:48:48 by raulsanc         ###   ########.fr       */
+/*   Created: 2026/02/02 13:26:41 by raulsanc          #+#    #+#             */
+/*   Updated: 2026/02/02 13:31:37 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long long	now_ms(void)
+int	should_stop(t_program *p)
 {
-	struct	timeval tv;
+	int	val;
 
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000LL) +(tv.tv_usec / 1000LL));
+	pthread_mutex_lock(&p->stop_mtx);
+	val = p->stop;
+	pthread_mutex_unlock(&p->stop_mtx);
+	return (val);
 }
 
-void	precise_sleep(long long ms)
+void	set_stop(t_program *p)
 {
-	long long	end;
-
-	end = now_ms() + ms;
-	while (now_ms() < end)
-		usleep(200);
+	pthread_mutex_lock(&p->stop_mtx);
+	p->stop = 1;
+	pthread_mutex_unlock(&p->stop_mtx);
 }

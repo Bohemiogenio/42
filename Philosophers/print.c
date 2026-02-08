@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   print.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/02 13:45:26 by raulsanc          #+#    #+#             */
-/*   Updated: 2026/02/02 13:48:48 by raulsanc         ###   ########.fr       */
+/*   Created: 2026/02/02 13:50:55 by raulsanc          #+#    #+#             */
+/*   Updated: 2026/02/02 14:04:45 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long long	now_ms(void)
+void	print_status(t_philo *philo, const char *msg)
 {
-	struct	timeval tv;
+	long long	ts;
 
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000LL) +(tv.tv_usec / 1000LL));
-}
-
-void	precise_sleep(long long ms)
-{
-	long long	end;
-
-	end = now_ms() + ms;
-	while (now_ms() < end)
-		usleep(200);
+	pthread_mutex_lock(&philo->prog->print_mtx);
+	if (!should_stop(philo->prog))
+	{
+		ts = now_ms() - philo->prog->start_ms;
+		printf("%lld %d %s\n", ts, philo->id, msg);
+	}
+	pthread_mutex_unlock(&philo->prog->print_mtx);
 }

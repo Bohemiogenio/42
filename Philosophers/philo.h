@@ -6,7 +6,7 @@
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:13:02 by raulsanc          #+#    #+#             */
-/*   Updated: 2026/01/23 16:07:21 by Raul             ###   ########.fr       */
+/*   Updated: 2026/02/02 14:04:39 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,17 @@ int	ft_atoi_positive(const char *s);
 int	init_program(t_program *p);
 void	destroy_program(t_program *p);
 
-long long	now_ms(void);
-void	precise_sleep(long long ms, t_program *p);
+/*STOP*/
 int	should_stop(t_program *p);
+void	set_stop(t_program *p);
+
+/* PRINT */
+void	print_status(t_philo *philo, const char *msg);
+
+/* TIME */
+long long	now_ms(void);
+void	precise_sleep(long long ms);
+
+int	start_simulation(t_program *p);
+void	*philo_routine(void *arg);
 #endif

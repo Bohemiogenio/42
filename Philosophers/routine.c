@@ -1,30 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   time.c                                             :+:      :+:    :+:   */
+/*   routine.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/02 13:45:26 by raulsanc          #+#    #+#             */
-/*   Updated: 2026/02/02 13:48:48 by raulsanc         ###   ########.fr       */
+/*   Created: 2026/02/02 14:15:43 by raulsanc          #+#    #+#             */
+/*   Updated: 2026/02/02 14:32:44 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-long long	now_ms(void)
+static void	initial_delay(t_philo *philo)
 {
-	struct	timeval tv;
-
-	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000LL) +(tv.tv_usec / 1000LL));
+	if (philo->id % 2 == 0)
+		usleep(1000);
 }
 
-void	precise_sleep(long long ms)
+void	*philo_routine(void *arg)
 {
-	long long	end;
+	t_philo *philo;
 
-	end = now_ms() + ms;
-	while (now_ms() < end)
-		usleep(200);
+	philo = (t_philo *)arg;
+	initial_delay(philo);
+	while (!should_stop(philo->prog))
+	{
+		print_status(philo, "is thinking");
+		precise_sleep(philo->prog->time_sleep);
+		print_status(philo, "is sleeping");
+		precise_sleep(philo->prog->time_sleep);
+	}
+	return (NULL);
 }

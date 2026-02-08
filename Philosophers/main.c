@@ -6,7 +6,7 @@
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:44:03 by raulsanc          #+#    #+#             */
-/*   Updated: 2026/01/23 16:12:29 by Raul             ###   ########.fr       */
+/*   Updated: 2026/02/02 14:23:34 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 int main(int ac, char **av)
 {
 	t_program	p;
-	long long	t0;
-	long long	t1;
 	
 	if (parse_args(ac, av, &p))
 		return (1);
@@ -25,12 +23,12 @@ int main(int ac, char **av)
 		write(2, "Error; init failed\n", 19);
 		return (1);
 	}
-
-	t0 = now_ms();
-	precise_sleep(300, &p);
-	t1 = now_ms();
-	printf("slept ~%lld ms\n", (t1 - t0));
-
+	if (start_simulation(&p))
+	{
+		write(2, "Error: simulation failed\n", 25);
+		destroy_program(&p);
+		return (1);
+	}
 	destroy_program(&p);
 	return (0);
 }
