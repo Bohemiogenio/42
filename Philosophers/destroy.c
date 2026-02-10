@@ -5,34 +5,37 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/01/16 20:19:20 by raulsanc          #+#    #+#             */
-/*   Updated: 2026/01/16 20:35:03 by raulsanc         ###   ########.fr       */
+/*   Created: 2026/02/04 18:25:40 by raulsanc          #+#    #+#             */
+/*   Updated: 2026/02/04 18:25:45 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-void	destroy_program(t_program *p)
+static void	destroy_forks(t_program *p)
 {
 	int	i;
 
+	if (!p->forks)
+		return ;
 	i = 0;
-	if (p->forks)
+	while (i < p->n_philo)
 	{
-		while (i < p->n_philo)
-		{
-			pthread_mutex_destroy(&p->forks[i]);
-			i++;
-		}
-		free(p->forks);
-		p->forks = NULL;
+		pthread_mutex_destroy(&p->forks[i]);
+		i++;
 	}
+	free(p->forks);
+	p->forks = NULL;
+}
+
+void	destroy_program(t_program *p)
+{
+	if (!p)
+		return ;
+	destroy_forks(p);
 	pthread_mutex_destroy(&p->print_mtx);
 	pthread_mutex_destroy(&p->meal_mtx);
 	pthread_mutex_destroy(&p->stop_mtx);
-	if (p->philos)
-	{
-		free(p->philos);
-		p->philos = NULL;
-	}
+	free(p->philos);
+	p->philos = NULL;
 }

@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2026/02/02 14:15:43 by raulsanc          #+#    #+#             */
-/*   Updated: 2026/02/02 14:32:44 by raulsanc         ###   ########.fr       */
+/*   Created: 2026/02/04 14:21:46 by raulsanc          #+#    #+#             */
+/*   Updated: 2026/02/04 14:21:57 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,18 @@ static void	initial_delay(t_philo *philo)
 
 void	*philo_routine(void *arg)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
 	philo = (t_philo *)arg;
 	initial_delay(philo);
 	while (!should_stop(philo->prog))
 	{
-		print_status(philo, "is thinking");
-		precise_sleep(philo->prog->time_sleep);
+		if (take_forks(philo))
+			break ;
+		philo_eat(philo);
 		print_status(philo, "is sleeping");
-		precise_sleep(philo->prog->time_sleep);
+		smart_sleep(philo->prog->time_sleep, philo->prog);
+		print_status(philo, "is thinking");
 	}
 	return (NULL);
 }

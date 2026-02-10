@@ -6,7 +6,7 @@
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/02/02 13:45:26 by raulsanc          #+#    #+#             */
-/*   Updated: 2026/02/02 13:48:48 by raulsanc         ###   ########.fr       */
+/*   Updated: 2026/02/04 14:25:39 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,5 +26,14 @@ void	precise_sleep(long long ms)
 
 	end = now_ms() + ms;
 	while (now_ms() < end)
+		usleep(200);
+}
+
+void	smart_sleep(long long ms, t_program *p)
+{
+	long long	 end;
+	
+	end = now_ms() + ms;
+	while (!should_stop(p) && now_ms() < end)
 		usleep(200);
 }

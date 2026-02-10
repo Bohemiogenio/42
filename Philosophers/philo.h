@@ -6,7 +6,7 @@
 /*   By: raulsanc <raulsanc@student.42malaga.com>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/01/16 16:13:02 by raulsanc          #+#    #+#             */
-/*   Updated: 2026/02/02 14:04:39 by raulsanc         ###   ########.fr       */
+/*   Updated: 2026/02/04 17:45:32 by raulsanc         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ typedef struct s_philo
 	int		id;
 	pthread_t	thread;
 	pthread_mutex_t	*left_fork;
-	pthread_mutex_t	*rigth_fork;
+	pthread_mutex_t	*right_fork;
 	long long	last_meal_ms;
 	int		meals_eaten;
 	t_program	*prog;
@@ -48,9 +48,11 @@ typedef struct	s_program
 	t_philo		*philos;
 }	t_program;
 
+/* PARSE */
 int	parse_args(int ac, char **a, t_program *p);
 int	ft_atoi_positive(const char *s);
 
+/* INIT / DESTROY */
 int	init_program(t_program *p);
 void	destroy_program(t_program *p);
 
@@ -64,7 +66,17 @@ void	print_status(t_philo *philo, const char *msg);
 /* TIME */
 long long	now_ms(void);
 void	precise_sleep(long long ms);
+void	smart_sleep(long long ms, t_program *p);
 
+/* SIMULATION */
 int	start_simulation(t_program *p);
 void	*philo_routine(void *arg);
+
+/* BOSS */
+void	*boss_routine(void *arg);
+
+/* SPLIT */
+int	take_forks(t_philo *philo);
+void	philo_eat(t_philo *philo);
+
 #endif
