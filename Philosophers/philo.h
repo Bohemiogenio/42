@@ -19,64 +19,63 @@
 # include <stdlib.h>
 # include <sys/time.h>
 
-typedef struct s_program t_program;
+typedef struct s_program	t_program;
 
 typedef struct s_philo
 {
-	int		id;
-	pthread_t	thread;
+	int				id;
+	pthread_t		thread;
 	pthread_mutex_t	*left_fork;
 	pthread_mutex_t	*right_fork;
-	long long	last_meal_ms;
-	int		meals_eaten;
-	t_program	*prog;
+	long long		last_meal_ms;
+	int				meals_eaten;
+	t_program		*prog;
 }	t_philo;
 
-typedef struct	s_program
+typedef struct s_program
 {
-	int		n_philo;
-	int		time_die;
-	int		time_eat;
-	int		time_sleep;
-	int		must_eat;
-	long long	start_ms;
-	int		stop;
+	int				n_philo;
+	int				time_die;
+	int				time_eat;
+	int				time_sleep;
+	int				must_eat;
+	long long		start_ms;
+	int				stop;
 	pthread_mutex_t	*forks;
 	pthread_mutex_t	print_mtx;
 	pthread_mutex_t	meal_mtx;
 	pthread_mutex_t	stop_mtx;
-	t_philo		*philos;
+	t_philo			*philos;
 }	t_program;
 
 /* PARSE */
-int	parse_args(int ac, char **a, t_program *p);
-int	ft_atoi_positive(const char *s);
+int			parse_args(int ac, char **a, t_program *p);
+int			ft_atoi_positive(const char *s);
 
 /* INIT / DESTROY */
-int	init_program(t_program *p);
-void	destroy_program(t_program *p);
+int			init_program(t_program *p);
+void		destroy_program(t_program *p);
 
-/*STOP*/
-int	should_stop(t_program *p);
-void	set_stop(t_program *p);
+/* STOP */
+int			should_stop(t_program *p);
+void		set_stop(t_program *p);
 
 /* PRINT */
-void	print_status(t_philo *philo, const char *msg);
+void		print_status(t_philo *philo, const char *msg);
 
 /* TIME */
 long long	now_ms(void);
-void	precise_sleep(long long ms);
-void	smart_sleep(long long ms, t_program *p);
+void		smart_sleep(long long ms, t_program *p);
 
 /* SIMULATION */
-int	start_simulation(t_program *p);
-void	*philo_routine(void *arg);
+int			start_simulation(t_program *p);
+void		*philo_routine(void *arg);
 
 /* BOSS */
-void	*boss_routine(void *arg);
+void		*boss_routine(void *arg);
 
 /* SPLIT */
-int	take_forks(t_philo *philo);
-void	philo_eat(t_philo *philo);
+int			take_forks(t_philo *philo);
+void		philo_eat(t_philo *philo);
 
 #endif

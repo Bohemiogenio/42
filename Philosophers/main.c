@@ -12,10 +12,10 @@
 
 #include "philo.h"
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_program	p;
-	
+
 	if (parse_args(ac, av, &p))
 		return (1);
 	if (init_program(&p))

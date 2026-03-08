@@ -24,20 +24,8 @@ static void	destroy_forks_partial(t_program *p, int count)
 	}
 }
 
-static int	init_mutexes(t_program *p)
+static int	init_control_mutexes(t_program *p)
 {
-	int	i;
-
-	i = 0;
-	while (i < p->n_philo)
-	{
-		if (pthread_mutex_init(&p->forks[i], NULL) != 0)
-		{
-			destroy_forks_partial(p, i);
-			return (1);
-		}
-		i++;
-	}
 	if (pthread_mutex_init(&p->print_mtx, NULL) != 0)
 		return (destroy_forks_partial(p, p->n_philo), 1);
 	if (pthread_mutex_init(&p->meal_mtx, NULL) != 0)
@@ -54,6 +42,23 @@ static int	init_mutexes(t_program *p)
 		return (1);
 	}
 	return (0);
+}
+
+static int	init_mutexes(t_program *p)
+{
+	int	i;
+
+	i = 0;
+	while (i < p->n_philo)
+	{
+		if (pthread_mutex_init(&p->forks[i], NULL) != 0)
+		{
+			destroy_forks_partial(p, i);
+			return (1);
+		}
+		i++;
+	}
+	return (init_control_mutexes(p));
 }
 
 static void	init_philos(t_program *p)

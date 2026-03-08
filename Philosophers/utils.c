@@ -15,7 +15,7 @@
 int	ft_atoi_positive(const char *s)
 {
 	long long	num;
-	int		i;
+	int			i;
 
 	num = 0;
 	i = 0;
@@ -25,7 +25,7 @@ int	ft_atoi_positive(const char *s)
 	{
 		if (s[i] < '0' || s[i] > '9')
 			return (-1);
-		num = num * 10 +(s[i] - '0');
+		num = num * 10 + (s[i] - '0');
 		if (num > 2147483647)
 			return (-1);
 		i++;

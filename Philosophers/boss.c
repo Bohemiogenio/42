@@ -52,13 +52,17 @@ static int	check_philo_death(t_philo *philo)
 {
 	long long	now;
 	long long	last;
+	long long	ts;
 
 	now = now_ms();
 	last = get_last_meal(philo);
 	if (now - last > philo->prog->time_die)
 	{
-		print_status(philo, "died");
 		set_stop(philo->prog);
+		pthread_mutex_lock(&philo->prog->print_mtx);
+		ts = now_ms() - philo->prog->start_ms;
+		printf("%lld %d died\n", ts, philo->id);
+		pthread_mutex_unlock(&philo->prog->print_mtx);
 		return (1);
 	}
 	return (0);

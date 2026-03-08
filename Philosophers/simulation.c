@@ -14,13 +14,13 @@
 
 static int	create_threads(t_program *p)
 {
-	int i;
-	
+	int	i;
+
 	i = 0;
 	while (i < p->n_philo)
 	{
 		if (pthread_create(&p->philos[i].thread, NULL,
-			philo_routine, &p->philos[i]) != 0)
+				philo_routine, &p->philos[i]) != 0)
 			return (1);
 		i++;
 	}
@@ -29,7 +29,7 @@ static int	create_threads(t_program *p)
 
 static void	join_threads(t_program *p)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (i < p->n_philo)
@@ -41,9 +41,9 @@ static void	join_threads(t_program *p)
 
 int	start_simulation(t_program *p)
 {
-	int		i;
+	int			i;
 	pthread_t	boss;
-	
+
 	p->start_ms = now_ms();
 	i = 0;
 	while (i < p->n_philo)

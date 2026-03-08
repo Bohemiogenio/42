@@ -14,25 +14,16 @@
 
 long long	now_ms(void)
 {
-	struct	timeval tv;
+	struct timeval	tv;
 
 	gettimeofday(&tv, NULL);
-	return ((tv.tv_sec * 1000LL) +(tv.tv_usec / 1000LL));
-}
-
-void	precise_sleep(long long ms)
-{
-	long long	end;
-
-	end = now_ms() + ms;
-	while (now_ms() < end)
-		usleep(200);
+	return ((tv.tv_sec * 1000LL) + (tv.tv_usec / 1000LL));
 }
 
 void	smart_sleep(long long ms, t_program *p)
 {
-	long long	 end;
-	
+	long long	end;
+
 	end = now_ms() + ms;
 	while (!should_stop(p) && now_ms() < end)
 		usleep(200);
