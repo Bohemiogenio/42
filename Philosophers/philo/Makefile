@@ -14,11 +14,9 @@ NAME = philo
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
 
-# Archivos fuente .c
 SRCS = main.c parse.c utils.c init.c destroy.c time.c stop.c print.c routine.c \
         simulation.c boss.c forks.c eat.c
 
-# Archivos objeto .o
 OBJS = $(SRCS:.c=.o)
 
 all: $(NAME)
