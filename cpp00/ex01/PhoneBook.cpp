@@ -11,7 +11,7 @@ void PhoneBook::addContact(Contact const &contact)
 {
 	_contacts[_nextIndex] = contact;
 	_nextIndex = (_nextIndex + 1) % MAX_CONTACTS;
-	if (_nbContacts < MAX:CONTACTS)
+	if (_nbContacts < MAX_CONTACTS)
 		_nbContacts++;
 }
 
@@ -27,7 +27,7 @@ void PhoneBook::displayContacts() const
 	std::cout << std::right << std::setw(10) << "Index" << "|"
 		  << std::right << std::setw(10) << "First Name" << "|"
 		  << std::right << std::setw(10) << "Last Name" << "|"
-		  << std::right << std::setw(10) << "Nickname" << "|";
+		  << std::right << std::setw(10) << "Nickname" << std::endl;
 
 	for (int i = 0; i < _nbContacts; i++)
 	{
@@ -35,9 +35,9 @@ void PhoneBook::displayContacts() const
 		oss << i;
 
 		std::cout << std::right << std::setw(10) << _truncate(oss.str()) << "|"
-			  << std::right << std::setw(10) << _truncate(_contacts[i].getFirsName()) << "|"
+			  << std::right << std::setw(10) << _truncate(_contacts[i].getFirstName()) << "|"
 			  << std::right << std::setw(10) << _truncate(_contacts[i].getLastName()) << "|"
-			  << std::right << std::setw(10) << _truncate(_contacts[i].getNickname()) << "|";
+			  << std::right << std::setw(10) << _truncate(_contacts[i].getNickname()) << std::endl;
 	}
 }
 
@@ -48,7 +48,7 @@ void PhoneBook::displayContact(int index) const
 		std::cout << "invalid index." << std::endl;
 		return;
 	}
-	std::cout << "First Name:     " << _contacts[index].getFirsName() << std::endl;
+	std::cout << "First Name:     " << _contacts[index].getFirstName() << std::endl;
 	std::cout << "Last Name:      " << _contacts[index].getLastName() << std::endl;
 	std::cout << "Nickname:       " << _contacts[index].getNickname() << std::endl;
 	std::cout << "Phone Number:   " << _contacts[index].getPhoneNumber() << std::endl;
