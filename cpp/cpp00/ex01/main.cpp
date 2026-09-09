@@ -1,6 +1,7 @@
 #include "PhoneBook.hpp"
 #include <iostream>
 #include <cstdlib>
+#include <cctype>
 
 static std::string getInput(std::string const &prompt)
 {
@@ -16,6 +17,29 @@ static std::string getInput(std::string const &prompt)
 	return input;
 }
 
+static bool isValidPhoneNumber(std::string const &number)
+{
+	for (size_t i = 0; i < number.size(); i++)
+	{
+		if (!std::isdigit(static_cast<unsigned char>(number[i])))
+			return false;
+	}
+	return true;
+}
+
+static std::string getPhoneNumber()
+{
+	std::string number;
+
+	number = getInput("Phone number: ");
+	while (!isValidPhoneNumber(number))
+	{
+		std::cout << "Phone number must contain only digits." << std::endl;
+		number = getInput("Phone number: ");
+	}
+	return number;
+}
+
 static void addContact(PhoneBook &phoneBook)
 {
 	Contact contact;
@@ -23,7 +47,7 @@ static void addContact(PhoneBook &phoneBook)
 	contact.setFirstName(getInput("First name: "));
 	contact.setLastName(getInput("Last name: "));
 	contact.setNickname(getInput("Nickname: "));
-	contact.setPhoneNumber(getInput("Phone number: "));
+	contact.setPhoneNumber(getPhoneNumber());
 	contact.setDarkestSecret(getInput("Darkest secret: "));
 	phoneBook.addContact(contact);
 }
