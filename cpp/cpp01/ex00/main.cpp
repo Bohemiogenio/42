@@ -2,13 +2,13 @@
 
 int  main(void)
 {
+    Zombie* miZombie = newZombie("Cypher");
+    miZombie->announce();
     {
         Zombie sova("Sova");
         sova.announce();
     }
     randomChump("Kayo");
-    Zombie* miZombie = newZombie("Cypher");
-    miZombie->announce();
     delete miZombie;
     
     return 0;
