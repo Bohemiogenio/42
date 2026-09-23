@@ -14,51 +14,50 @@
 # define CUB3D_H
 
 /*
-** t_map
+** t_map: datos del mapa y la escena.
 ** Rellenada por: PERSONA A (parser)
 ** Leida por:     PERSONA B (renderer / raycasting)
 */
 typedef struct s_map
 {
-	char	**grid;
-	int		width;
-	int		height;
-	char	*no_path;
-	char	*so_path;
-	char	*we_path;
-	char	*ea_path;
-	int		floor_color[3];
-	int		ceiling_color[3];
+	char	**grid;				/* mapa como array de strings */
+	int		width;				/* ancho: fila mas larga */
+	int		height;				/* alto: numero de filas */
+	char	*no_path;			/* ruta textura Norte */
+	char	*so_path;			/* ruta textura Sur */
+	char	*we_path;			/* ruta textura Oeste */
+	char	*ea_path;			/* ruta textura Este */
+	int		floor_color[3];		/* color suelo RGB */
+	int		ceiling_color[3];	/* color techo RGB */
 }	t_map;
 
 /*
-** t_player
-** Inicializada por: PERSONA A (parser) -> posicion/orientacion spawn
-** Actualizada por:  PERSONA B (renderer) -> movimiento, rotacion
+** t_player: posicion y orientacion del jugador.
+** Inicializada por: PERSONA A (parser) -> spawn inicial
+** Actualizada por:  PERSONA B (renderer) -> movimiento
 */
 typedef struct s_player
 {
-	double	x;
-	double	y;
-	double	dir_angle;
-	double	dir_x;
-	double	dir_y;
-	double	plane_x;
-	double	plane_y;
+	double	x;			/* posicion X en el mapa */
+	double	y;			/* posicion Y en el mapa */
+	double	dir_angle;	/* angulo de direccion (radianes) */
+	double	dir_x;		/* vector direccion X (raycasting) */
+	double	dir_y;		/* vector direccion Y (raycasting) */
+	double	plane_x;	/* vector plano camara X */
+	double	plane_y;	/* vector plano camara Y */
 }	t_player;
 
 /*
-** t_data
-** Estructura maestra: se pasa por referencia a TODAS las
-** funciones, tanto de parseo como de render.
+** t_data: estructura maestra, se pasa por referencia a TODAS
+** las funciones, tanto de parseo como de render.
 */
 typedef struct s_data
 {
-	void		*mlx;
-	void		*win;
-	int			fd;
-	t_map		map;
-	t_player	player;
+	void		*mlx;	/* instancia mlx (Persona B) */
+	void		*win;	/* ventana mlx (Persona B) */
+	int			fd;		/* descriptor del archivo .cub abierto */
+	t_map		map;	/* datos del mapa */
+	t_player	player;	/* datos del jugador */
 }	t_data;
 
 #endif

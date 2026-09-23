@@ -12,6 +12,7 @@
 
 #include "parser.h"
 
+/* Crea un nodo suelto de la lista, guardando el puntero a la linea */
 static t_lnode	*new_lnode(char *line)
 {
 	t_lnode	*node;
@@ -24,6 +25,7 @@ static t_lnode	*new_lnode(char *line)
 	return (node);
 }
 
+/* Añade un nodo nuevo al final de la lista (head/tail) */
 static void	push_lnode(t_lnode **head, t_lnode **tail, char *line)
 {
 	t_lnode	*node;
@@ -38,6 +40,7 @@ static void	push_lnode(t_lnode **head, t_lnode **tail, char *line)
 	*tail = node;
 }
 
+/* Convierte la lista enlazada en un array char** terminado en NULL */
 static char	**lnode_list_to_grid(t_lnode *head, int len)
 {
 	char	**grid;
@@ -60,6 +63,7 @@ static char	**lnode_list_to_grid(t_lnode *head, int len)
 	return (grid);
 }
 
+/* Lee todas las lineas restantes del archivo y las guarda en map.grid */
 int	fill_map_grid(t_data *data)
 {
 	t_lnode	*head;

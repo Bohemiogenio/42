@@ -12,6 +12,7 @@
 
 #include "parser.h"
 
+/* Comprueba que el nombre de archivo termina en ".cub" */
 int	check_extension(char *filename)
 {
 	size_t	len;
@@ -24,6 +25,7 @@ int	check_extension(char *filename)
 	return (1);
 }
 
+/* Valida la extension y abre el archivo, guardando el fd en data */
 int	open_cub_file(char *filename, t_data *data)
 {
 	int	fd;

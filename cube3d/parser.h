@@ -20,24 +20,31 @@
 # include <stdlib.h>
 # include <unistd.h>
 
+/*
+** t_lnode: nodo de lista enlazada, usado solo internamente
+** para recolectar las lineas del mapa mientras se leen
+** (no forma parte del contrato con Persona B).
+*/
 typedef struct s_lnode
 {
 	char			*line;
 	struct s_lnode	*next;
 }	t_lnode;
 
-int		ft_arr_len(char **arr);
-void	ft_free_split(char **arr);
-int		ft_atoi_strict(const char *s, int *out);
+/* Manejo de errores */
 void	parse_error(t_data *data, char *msg);
+
+/* Argumentos y apertura de archivo */
 int		check_extension(char *filename);
 int		open_cub_file(char *filename, t_data *data);
-int		parse_config_line(char *line, t_data *data);
-int		is_config_line(char *line);
-int		all_config_filled(t_map *map);
-int		parse_map(char *filename, t_data *data);
+
+/* Parseo del mapa: lectura, dimensiones, validacion */
+int		fill_map_grid(t_data *data);
+void	compute_map_width(t_map *map);
+void	validate_map_chars(t_data *data);
+
+/* Liberacion de memoria */
 void	free_map(t_map *map);
 void	free_data(t_data *data);
-int		fill_map_grid(t_data *data);
 
 #endif
