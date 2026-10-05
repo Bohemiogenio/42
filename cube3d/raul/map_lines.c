@@ -63,12 +63,17 @@ static char	**lnode_list_to_grid(t_lnode *head, int len)
 	return (grid);
 }
 
+<<<<<<< HEAD:cube3d/raul/map_lines.c
 /*
 ** Lee TODO el archivo (configuracion + mapa) de una sola vez y
 ** devuelve una lista enlazada con una linea por nodo. Separar
 ** config de mapa se hace despues, fuera de esta funcion.
 */
 t_lnode	*read_all_lines(int fd)
+=======
+/* Lee todas las lineas restantes del archivo y las guarda en map.grid */
+int	fill_map_grid(t_data *data)
+>>>>>>> 38fd634f086546a66f8d4ab8ef16f4a5018110b3:cube3d/map_lines.c
 {
 	t_lnode	*head;
 	t_lnode	*tail;

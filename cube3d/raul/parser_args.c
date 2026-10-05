@@ -25,6 +25,7 @@ int	check_extension(char *filename)
 	return (1);
 }
 
+<<<<<<< HEAD:cube3d/raul/parser_args.c
 /*
 ** Deja "data" en un estado seguro ANTES de poder fallar.
 ** Si no hacemos esto, un error muy temprano (p.ej. extension
@@ -43,6 +44,8 @@ static void	init_data(t_data *data)
 	data->map.ea_path = NULL;
 }
 
+=======
+>>>>>>> 38fd634f086546a66f8d4ab8ef16f4a5018110b3:cube3d/parser_args.c
 /* Valida la extension y abre el archivo, guardando el fd en data */
 int	open_cub_file(char *filename, t_data *data)
 {
