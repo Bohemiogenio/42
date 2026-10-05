@@ -1,0 +1,78 @@
+=====================================================
+06 - COMPROBAR QUE EL MAPA ESTA CERRADO
+Archivos: map_closed.c, map_closed_utils.c
+=====================================================
+
+LA IDEA
+-------
+Un mapa esta cerrado si el jugador no puede "escaparse" por ningun
+lado: tiene que haber paredes (1) alrededor de todo el suelo.
+
+Se comprueba como si echaras agua en la casilla del jugador.
+El agua se extiende a las casillas de al lado (arriba, abajo,
+izquierda, derecha):
+    - si toca una pared (1)       -> se para ahi, todo bien
+    - si toca un espacio o sale   -> el agua se escapa: mapa abierto,
+      del mapa                       error
+    - si toca suelo (0)           -> sigue extendiendose
+Esto se llama "flood fill" (relleno por inundacion).
+
+No usamos recursion (una funcion que se llama a si misma): con mapas
+grandes podria llenar la memoria. En su lugar usamos una PILA: una
+lista de casillas pendientes. Siempre se coge la ultima que se anadio.
+
+
+-----------------------------------------------------
+map_closed_utils.c  (herramientas)
+-----------------------------------------------------
+
+alloc_visited(map)
+    Crea una tabla del tamano del mapa llena de ceros.
+    Sirve para apuntar que casillas ya visitamos (1 = ya visitada),
+    y no repetir ni entrar en un bucle infinito.
+
+free_visited(visited, height)
+    Libera esa tabla: primero cada fila, despues la tabla.
+
+new_point(y, x)
+    Crea una cajita de la pila con una coordenada (fila y columna).
+
+
+-----------------------------------------------------
+map_closed.c  (el algoritmo)
+-----------------------------------------------------
+
+pop_point(stack)                   (privada)
+    Saca la casilla de arriba de la pila y la devuelve.
+
+clean_and_error(ctx, msg)          (privada)
+    Libera todo lo del flood fill y despues llama a parse_error:
+        - la tabla de visitadas
+        - la casilla que se estaba mirando
+        - las casillas que quedaban en la pila
+    Importa el orden: hay que liberar ANTES del error, porque
+    parse_error termina el programa y no deja hacer nada despues.
+
+process_neighbor(ctx, y, x)        (privada)
+    Mira UNA casilla vecina y decide:
+        - fuera del mapa             -> error (se escapa)
+        - fila mas corta             -> error
+        - es '1' (pared)             -> se para, no hace nada mas
+        - es ' ' (espacio) o '\n'    -> error (se escapa)
+        - ya visitada                -> no hace nada
+        - si no: la marca como visitada y la mete en la pila
+
+check_map_closed(data)             (publica)
+    1. Crea la tabla de visitadas.
+    2. Mete la casilla del jugador en la pila y la marca visitada.
+    3. Mientras la pila no este vacia:
+         - saca una casilla
+         - mira sus 4 vecinas con process_neighbor
+         - libera esa casilla
+    4. Si termina sin error, el mapa esta cerrado.
+       Libera la tabla de visitadas.
+
+Ejemplo de mapa ABIERTO (hay un hueco en la pared de abajo):
+    1111
+    1N01
+    1 11      <- el espacio deja escapar el agua -> error

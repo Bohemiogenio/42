@@ -1,0 +1,78 @@
+=====================================================
+01 - LAS ESTRUCTURAS (cub3d.h y parser.h)
+=====================================================
+
+Un archivo .h (header) no tiene logica: solo define "cajas" (struct)
+y avisa de que funciones existen.
+
+Hay dos headers:
+    cub3d.h   -> lo comparten tu companero y tu.
+    parser.h  -> es solo tuyo (cosas internas del parser).
+
+
+-----------------------------------------------------
+cub3d.h  (lo compartido con Persona B)
+-----------------------------------------------------
+
+t_map   - Todo lo del mapa y la escena
+    grid            el mapa: una lista de textos, uno por fila
+    width           ancho (la fila mas larga)
+    height          alto (numero de filas)
+    no_path         ruta de la imagen Norte
+    so_path         ruta de la imagen Sur
+    we_path         ruta de la imagen Oeste
+    ea_path         ruta de la imagen Este
+    floor_color[3]  color del suelo: [rojo, verde, azul]
+    ceiling_color[3] color del techo: [rojo, verde, azul]
+
+t_player  - El jugador
+    x, y            posicion (columna y fila donde empieza)
+    dir_angle       angulo hacia donde mira (en radianes)
+    dir_x, dir_y    el mismo dato como flecha (para el raycasting)
+    plane_x, plane_y  plano de la camara (el parser NO lo rellena)
+
+t_data  - La caja principal. Se pasa a todas las funciones.
+    mlx, win        cosas de la ventana (las usa Persona B)
+    fd              numero del archivo .cub abierto
+    map             un t_map
+    player          un t_player
+
+
+-----------------------------------------------------
+parser.h  (solo para tu parte)
+-----------------------------------------------------
+
+t_lnode  - Una cajita de lista enlazada con una linea de texto
+    line            el texto de la linea
+    next            flecha a la siguiente cajita
+    Se usa para guardar las lineas del archivo mientras se leen.
+
+t_point  - Una coordenada pendiente de visitar (para comprobar el mapa)
+    y, x            fila y columna
+    next            flecha a la siguiente
+
+t_flood_ctx  - "Mochila" para la comprobacion del mapa cerrado
+    data            la caja principal
+    visited         tabla de casillas ya visitadas
+    stack           pila de casillas pendientes
+    current         la casilla que se esta mirando ahora
+  Por que existe: la Norma de 42 solo deja 4 parametros por funcion.
+  Meter todo en una "mochila" permite pasar un solo parametro.
+
+t_config_flags  - Apunta que lineas de configuracion ya han salido
+    no, so, we, ea, f, c    valen 0 (no ha salido) o 1 (ya salio)
+  Sirve para detectar lineas repetidas y lineas que faltan.
+
+t_config_ctx  - Otra "mochila", para leer la configuracion
+    data            la caja principal
+    flags           el t_config_flags de arriba
+    lines           flecha a la lista de lineas que quedan por leer
+  Asi, si hay un error, se pueden liberar las lineas pendientes.
+
+
+-----------------------------------------------------
+El resto de parser.h
+-----------------------------------------------------
+Son los "avisos" de funciones (prototipos). Dicen al compilador:
+"esta funcion existe y se usa asi". Estan agrupados por tema
+(errores, argumentos, lectura, config, flood fill, liberar memoria).

@@ -1,0 +1,89 @@
+=====================================================
+00 - VISION GENERAL DE TU PARTE (EL PARSER)
+=====================================================
+
+QUE HACE TU PARTE
+-----------------
+Lee un archivo .cub, comprueba que esta bien escrito y guarda todo
+en una variable llamada "data". Con eso, tu companero (Persona B)
+puede dibujar el juego.
+
+Si algo esta mal, el programa imprime "Error" y un mensaje, libera
+la memoria y termina.
+
+
+COMO ES UN ARCHIVO .cub
+-----------------------
+    NO ./norte.xpm       <- imagen de la pared norte
+    SO ./sur.xpm         <- imagen de la pared sur
+    WE ./oeste.xpm       <- imagen de la pared oeste
+    EA ./este.xpm        <- imagen de la pared este
+    F 220,100,0          <- color del suelo (rojo,verde,azul)
+    C 225,30,0           <- color del techo
+
+    111111               <- el mapa
+    100001
+    10N001
+    111111
+
+En el mapa:
+    1 = pared
+    0 = suelo
+    N, S, E, W = donde empieza el jugador y hacia donde mira
+    espacio = zona vacia (fuera del mapa)
+
+
+LA FUNCION PRINCIPAL: parse_map (archivo parse_map.c)
+-----------------------------------------------------
+Es la unica funcion que tu companero tiene que llamar.
+Hace 6 pasos, siempre en este orden:
+
+    1. open_cub_file      abre el archivo
+    2. parse_config       lee texturas y colores, y separa el mapa
+    3. validate_map_chars comprueba que el mapa solo tiene 0 1 N S E W
+    4. normalize_map      deja el mapa ordenado (filas del mismo ancho)
+    5. locate_player      busca al jugador (tiene que haber uno solo)
+    6. check_map_closed   comprueba que el mapa esta rodeado de paredes
+
+Si un paso falla, el programa termina ahi y no se llega al siguiente.
+
+
+GLOSARIO (palabras que vas a ver mucho)
+---------------------------------------
+struct       Una "caja" con varios datos dentro. Ejemplo: t_map guarda
+             el mapa, las rutas de las texturas y los colores.
+
+puntero (*)  Una flecha que apunta a donde esta guardado un dato.
+             "char *" apunta a un texto. "t_data *data" apunta a la caja
+             data, asi las funciones pueden cambiar su contenido.
+
+malloc/free  malloc pide memoria al ordenador. free la devuelve.
+             Si pides y no devuelves, hay una "fuga de memoria" (leak).
+
+lista        Una cadena de cajitas. Cada cajita guarda un dato y una
+enlazada     flecha a la siguiente. Sirve cuando no sabes cuantos
+             datos vas a tener (por ejemplo, cuantas lineas tiene el mapa).
+
+static       Una funcion "static" solo se puede usar dentro de su propio
+             archivo. Es una funcion privada.
+
+fd           Numero que identifica un archivo abierto. -1 significa
+             "no hay ningun archivo abierto".
+
+get_next_line  Tu funcion que lee un archivo, una linea cada vez.
+
+exit         Termina el programa en el acto.
+
+NULL         "No apunta a nada". Un puntero NULL esta vacio.
+
+
+COMO LEER LOS OTROS ARCHIVOS .txt
+---------------------------------
+    01  Las estructuras (cub3d.h y parser.h)
+    02  Abrir el archivo y manejar errores (parser_args.c, error.c, free_utils.c)
+    03  Leer lineas y separar configuracion de mapa (map_lines.c, config_parse.c, config_utils.c)
+    04  Texturas y colores (config_textures.c, config_colors.c)
+    05  Revisar el mapa y buscar al jugador (map_validate.c, map_normalize.c, map_player.c)
+    06  Comprobar que el mapa esta cerrado (map_closed.c, map_closed_utils.c)
+
+Leelos en ese orden: cada uno usa cosas del anterior.

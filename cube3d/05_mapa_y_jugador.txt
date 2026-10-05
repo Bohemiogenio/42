@@ -1,0 +1,89 @@
+=====================================================
+05 - REVISAR EL MAPA Y BUSCAR AL JUGADOR
+Archivos: map_validate.c, map_normalize.c, map_player.c
+=====================================================
+
+Aqui el mapa ya esta en data->map.grid (una tabla de textos, una
+fila por texto). Las filas pueden tener distinto largo y acabar en
+salto de linea (\n).
+
+
+-----------------------------------------------------
+map_validate.c  (caracteres validos)
+-----------------------------------------------------
+
+line_len_no_nl(line)               (privada)
+    Largo de una fila SIN contar el \n del final.
+
+compute_map_width(map)
+    Calcula el ancho del mapa: el largo de la fila mas larga.
+    (Se llama desde normalize_map.)
+
+is_valid_map_char(c)               (privada)
+    Dice si un caracter vale: 0, 1, N, S, E, W o espacio.
+
+validate_map_chars(data)
+    Recorre todo el mapa. Si encuentra un caracter que no vale
+    -> error "invalid character found in map".
+
+
+-----------------------------------------------------
+map_normalize.c  (dejar el mapa ordenado)
+-----------------------------------------------------
+
+Para que Persona B pueda leer grid[y][x] sin salirse de la fila,
+todas las filas tienen que medir lo mismo. Este archivo lo consigue.
+
+is_blank_row(row)                  (privada)
+    Dice si una fila esta vacia (solo espacios o salto de linea).
+
+trim_trailing_blank_rows(map)      (privada)
+    Borra las filas vacias del FINAL del mapa y baja el height.
+
+check_no_blank_rows(data)          (privada)
+    Si queda alguna fila vacia en MEDIO del mapa -> error
+    "empty line inside the map".
+
+pad_row(row, width)                (privada)
+    Crea una copia de la fila SIN el \n y la rellena con espacios
+    hasta que mida "width".
+    Ejemplo: "11" con width 5  ->  "11   "
+
+normalize_map(data)
+    1. Quita filas vacias del final.
+    2. Comprueba que no hay filas vacias en medio.
+    3. Calcula el ancho.
+    4. Cambia cada fila por su copia rellena (pad_row).
+    Resultado: todas las filas miden "width" y no tienen \n.
+
+
+-----------------------------------------------------
+map_player.c  (buscar al jugador)
+-----------------------------------------------------
+
+is_player_char(c)                  (privada)
+    Dice si es N, S, E o W.
+
+set_player_dir(data, c)            (privada)
+    Segun la letra pone el angulo de mirada:
+        N = pi/2     S = -pi/2     E = 0     W = pi
+    Despues calcula dir_x = cos(angulo) y dir_y = sin(angulo).
+
+count_and_store_player(data, pos)  (privada)
+    Recorre el mapa buscando letras de jugador.
+    Guarda la posicion de la PRIMERA (fila en pos[0], columna en pos[1])
+    y cuenta cuantas hay en total.
+
+locate_player(data)
+    1. Busca jugadores.
+    2. Si hay 0 -> error. Si hay mas de 1 -> error.
+    3. Guarda player.y (fila) y player.x (columna).
+    4. Llama a set_player_dir para la direccion.
+
+Cosas a hablar con tu companero:
+    - x e y son la casilla del jugador (por ejemplo 2 y 3), no el
+      centro de la casilla (2.5 y 3.5).
+    - El parser NO rellena plane_x ni plane_y.
+    - Con "N", dir_y vale +1. En un mapa donde la fila 0 esta
+      arriba, mirar al norte seria dir_y = -1. Hay que acordar con
+      Persona B que convencion usa su raycasting.

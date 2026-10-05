@@ -1,0 +1,87 @@
+=====================================================
+03 - LEER LINEAS Y SEPARAR CONFIGURACION DE MAPA
+Archivos: map_lines.c, config_parse.c, config_utils.c
+=====================================================
+
+LA IDEA
+-------
+El archivo .cub tiene dos partes: primero la configuracion (NO, SO,
+WE, EA, F, C) y despues el mapa.
+Se lee TODO el archivo de golpe y se guarda en una lista enlazada
+(una cajita por linea). Despues se van quitando de delante las lineas
+de configuracion. Lo que queda es el mapa.
+
+
+-----------------------------------------------------
+map_lines.c  (guardar lineas en una lista)
+-----------------------------------------------------
+
+new_lnode(line)            (privada)
+    Crea una cajita de la lista con una linea dentro.
+
+push_lnode(head, tail, line)   (privada)
+    Anade una cajita al FINAL de la lista.
+    "head" es el principio y "tail" el final. Si la lista esta vacia,
+    la nueva cajita es la primera; si no, se engancha tras la ultima.
+
+read_all_lines(fd)
+    Lee el archivo linea a linea con get_next_line y las mete en la
+    lista. Devuelve el principio de la lista.
+
+lnode_list_to_grid(head, len)  (privada)
+    Convierte la lista en un "array" (una tabla de textos) que acaba
+    en NULL. Va soltando las cajitas, pero se queda con las lineas.
+
+fill_map_grid(data, lines)
+    1. Cuenta cuantas lineas quedan.
+    2. Si no queda ninguna -> error "no map content".
+    3. Las convierte en data->map.grid y guarda la altura (height).
+
+
+-----------------------------------------------------
+config_utils.c  (ayudas pequenas)
+-----------------------------------------------------
+
+is_blank_line(line)
+    Dice si una linea esta "en blanco": solo espacios/tabuladores o vacia.
+
+match_id(line, id)
+    Dice si la linea empieza por un identificador (por ejemplo "NO")
+    y justo despues hay un espacio o tab.
+    "NO ./a.xpm" -> si.   "NORTE" -> no (despues de NO no hay espacio).
+
+config_error(ctx, msg)
+    El error para la parte de configuracion. Antes de llamar a
+    parse_error, libera TODAS las lineas que aun no se habian
+    procesado. Asi no se pierde memoria cuando hay un error a medias.
+
+
+-----------------------------------------------------
+config_parse.c  (el director de la configuracion)
+-----------------------------------------------------
+
+process_config_line(ctx, line)   (privada)
+    Mira que tipo de linea es y la procesa:
+        en blanco       -> la ignora
+        empieza por NO  -> set_no       SO -> set_so
+        empieza por WE  -> set_we       EA -> set_ea
+        empieza por F   -> set_floor_color
+        empieza por C   -> set_ceiling_color
+        otra cosa       -> devuelve 0 = "esto ya es el mapa"
+    Devuelve 1 si era configuracion (hay que seguir) y 0 si es mapa.
+
+check_flags_complete(ctx)        (privada)
+    Comprueba que han salido las 6 lineas. Si falta alguna -> error.
+
+init_flags(flags)                (privada)
+    Pone los 6 marcadores a 0 ("todavia no ha salido ninguna").
+
+parse_config(data)               (publica)
+    1. Pone los marcadores a 0.
+    2. Lee todo el archivo (read_all_lines).
+    3. Cierra el archivo (ya no hace falta) y pone fd = -1.
+    4. Prepara la "mochila" ctx.
+    5. Mientras la linea sea de configuracion: la procesa, y despues
+       libera esa linea y su cajita.
+    6. Comprueba que estan las 6 lineas.
+    7. Lo que queda de la lista es el mapa: se lo pasa a fill_map_grid.

@@ -1,0 +1,75 @@
+=====================================================
+04 - TEXTURAS Y COLORES
+Archivos: config_textures.c, config_colors.c
+=====================================================
+
+Estas funciones las llama process_config_line (ver 03).
+Todas siguen el mismo patron:
+    1. Si esa linea ya salio antes -> error (linea repetida).
+    2. Extraer y comprobar el valor.
+    3. Guardarlo en data y marcar la linea como "ya vista".
+    4. Devolver 1.
+
+
+-----------------------------------------------------
+config_textures.c  (NO, SO, WE, EA)
+-----------------------------------------------------
+
+extract_path(ctx, line, id_len)    (privada)
+    Saca la ruta de la imagen de una linea como "NO   ./norte.xpm".
+    1. Salta el identificador (2 letras) y quita espacios/tabs de
+       los lados con ft_strtrim.
+    2. Si no queda nada -> error "missing texture path".
+    3. Intenta abrir el archivo. Si no existe -> error.
+    4. Lo cierra y devuelve la ruta.
+    Antes de cada error libera la ruta, para no perder memoria.
+
+set_no / set_so / set_we / set_ea
+    Las cuatro hacen lo mismo con su textura:
+        - si ya habia salido -> error "duplicate ... line"
+        - guardan la ruta en data->map.no_path (o so_, we_, ea_)
+        - marcan el flag correspondiente
+    Hay cuatro funciones iguales a proposito: asi cada una es
+    corta y facil de leer.
+
+
+-----------------------------------------------------
+config_colors.c  (F y C)
+-----------------------------------------------------
+
+Una linea de color es asi:   F 220,100,0
+Son tres numeros (rojo, verde, azul) separados por comas.
+
+parse_component(s)                 (privada)
+    Comprueba UN numero y lo convierte. Devuelve -1 si no vale.
+    Reglas:
+        - no puede estar vacio
+        - solo digitos (nada de letras, signos ni puntos)
+        - maximo 3 digitos
+        - maximo 255
+    El limite de 3 digitos evita que un numero enorme desborde ft_atoi.
+
+free_parts(parts)                  (privada)
+    Libera la lista de textos que crea ft_split.
+
+fill_color(ctx, value, color)      (privada)
+    1. Parte "220,100,0" por las comas con ft_split.
+    2. Libera "value" (ya no hace falta).
+    3. Comprueba que hay EXACTAMENTE 3 partes.
+    4. Comprueba cada una con parse_component.
+    5. Las guarda en color[0], color[1], color[2].
+    6. Libera las partes.
+    Si algo falla, libera las partes ANTES de llamar al error.
+
+set_floor_color(ctx, line)    (linea F)
+set_ceiling_color(ctx, line)  (linea C)
+    Comprueban que no esten repetidas, quitan la letra (1 caracter)
+    y los espacios, llaman a fill_color y marcan el flag.
+    Guardan en floor_color o ceiling_color.
+
+Formatos que dan error (a proposito):
+    F 220, 100, 0     (espacios despues de las comas)
+    F 256,0,0         (mayor que 255)
+    F -1,0,0          (negativo)
+    F 220,100         (faltan numeros)
+    F 220,100,0,5     (sobran numeros)

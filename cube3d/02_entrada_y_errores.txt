@@ -1,0 +1,73 @@
+=====================================================
+02 - ABRIR EL ARCHIVO Y MANEJAR ERRORES
+Archivos: parser_args.c, error.c, free_utils.c
+=====================================================
+
+
+-----------------------------------------------------
+parser_args.c  (abrir el archivo)
+-----------------------------------------------------
+
+check_extension(filename)
+    Mira si el nombre acaba en ".cub".
+    - Si tiene menos de 5 letras -> no vale (".cub" solo no es un nombre).
+    - Compara las ultimas 4 letras con ".cub".
+    Devuelve 1 si vale, 0 si no.
+
+init_data(data)            (privada)
+    Deja la caja "data" en un estado seguro ANTES de hacer nada:
+        fd = -1               (no hay archivo abierto)
+        grid = NULL           (no hay mapa)
+        las 4 rutas = NULL    (no hay texturas)
+    Por que: si hay un error muy pronto, el programa intenta limpiar.
+    Si esos datos tuvieran basura, intentaria liberar memoria que no existe.
+
+open_cub_file(filename, data)
+    1. Llama a init_data.
+    2. Comprueba la extension. Si es mala -> error.
+    3. Abre el archivo (solo lectura). Si no se puede -> error.
+    4. Guarda el numero del archivo en data->fd.
+
+
+-----------------------------------------------------
+error.c  (cuando algo sale mal)
+-----------------------------------------------------
+
+drain_fd(fd)               (privada)
+    "Vacia" el archivo: lo lee entero hasta el final y lo cierra.
+    Por que: get_next_line guarda texto en una memoria interna.
+    Solo la libera cuando llega al final del archivo. Leyendo hasta
+    el final nos aseguramos de que no queda nada reservado.
+    Si fd es -1 (no hay archivo abierto), no hace nada.
+
+parse_error(data, msg)
+    LA funcion de error de todo el parser. Hace 4 cosas:
+        1. Imprime "Error" y despues el mensaje.
+        2. Vacia y cierra el archivo (drain_fd).
+        3. Libera la memoria de data (free_data).
+        4. Termina el programa (exit).
+    Nunca vuelve: despues de llamarla el programa ya no existe.
+    Por eso, antes de llamarla hay que liberar lo que tengas tu
+    (esa es la regla de oro de todo el proyecto).
+
+
+-----------------------------------------------------
+free_utils.c  (liberar memoria)
+-----------------------------------------------------
+
+free_textures(map)         (privada)
+    Libera las 4 rutas (no, so, we, ea) si existen, y las pone a NULL.
+
+free_grid(map)             (privada)
+    Libera el mapa: primero cada fila, despues la lista de filas.
+    Si el mapa no existe (NULL), no hace nada.
+
+free_map(map)
+    Llama a free_grid y free_textures.
+
+free_data(data)
+    Libera todo lo que contiene data. Ahora mismo: el mapa.
+    (mlx y win son de Persona B, no los libera el parser.)
+
+Poner los punteros a NULL despues de liberar evita liberar dos veces
+lo mismo, que haria fallar el programa.
